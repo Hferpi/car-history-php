@@ -19,8 +19,8 @@
             <a href="{{ route('history') }}">
                 <button>Historial</button>
             </a>
-            <a href="{{ route('login') }}">
-                <button>Salir</button>
+            <a href="{{ route('logout') }}">
+                <button type="button">Salir</button>
             </a>
         </div>
     </header>

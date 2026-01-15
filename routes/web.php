@@ -8,11 +8,12 @@ Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::get('/register', function () { return view('register'); })->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 
 // Rutas protegidas por login
 Route::middleware('authcheck')->group(function () {
     Route::view('/', 'home')->name('home');
-    Route::view('/register', 'register')->name('register');
     Route::view('/history', 'history')->name('history');
 
     Route::prefix('vehicles')->group(function () {
