@@ -1,59 +1,113 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚗 Vehicle Maintenance Tracker
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Una aplicación web robusta desarrollada con **Laravel** para la gestión y digitalización de recibos de mantenimiento automotriz. El sistema permite a los usuarios llevar un control exhaustivo de sus vehículos y transformar fotos de recibos físicos en registros digitales organizados.
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## ✨ Características Principales
 
-## Learning Laravel
+* **Gestión Multivehículo:** Registra y administra varios vehículos bajo un mismo perfil de dueño.
+* **OCR de Recibos:** Carga fotos de tickets y facturas; la app extrae automáticamente la información clave.
+* **Historial de Servicios:** Seguimiento de kilometraje, costos y tipos de mantenimiento por taller.
+* **Base de Datos Relacional:** Estructura jerárquica para marcas, modelos y talleres.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+---
+## 🛠️ Stack Tecnológico
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* **Framework:** [Laravel 11](https://laravel.com/)
+* **Lenguaje:** PHP 8.x
+* **Base de Datos:** SQLite / MySQL (Soporta claves foráneas y eliminaciones en cascada)
+* **Frontend:** Blade / Tailwind CSS
+* **Procesamiento de Imagen:** Tesseract OCR / Google Vision API (según implementación)
 
-## Laravel Sponsors
+## 📋 Estructura de Datos
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+El proyecto utiliza las siguientes entidades principales:
 
-### Premium Partners
+* **Marcas y Modelos:** Catálogo organizado para evitar duplicidad de datos.
+* **Vehículos:** Vinculados a un usuario y modelo, con seguimiento de matrícula y km.
+* **Talleres:** Directorio de lugares donde se realizan los servicios.
+* **Recibos:** El núcleo del sistema, donde se almacenan fechas, precios y observaciones.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 🚀 Instalación
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. **Clonar el repositorio**
+   ```bash
+   git clone [https://github.com/Hferpi/car-history-php.git](hhttps://github.com/Hferpi/car-history-php.git)
+   cd car_history_php
 
-## Code of Conduct
+   ## 🌟 Funcionalidades Principales
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+* **Perfil de Usuario:** Sistema de autenticación para que cada dueño gestione su propia flota de vehículos.
+* **Gestión de Vehículos:** Registro detallado incluyendo matrícula, marca, modelo y kilometraje actual.
+* **Escaneo Inteligente (OCR):** El núcleo de la app. Permite subir una fotografía del recibo del taller; el sistema extrae automáticamente:
+    * Nombre del Taller.
+    * Fecha de la intervención.
+    * Importe total (Precio).
+    * Descripción de los servicios realizados.
+* **Histórico de Mantenimiento:** Consulta rápida de todas las reparaciones y servicios realizados a un vehículo específico, facilitando el control de gastos y el mantenimiento preventivo.
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 🏗️ Arquitectura de la Aplicación
 
-## License
+La aplicación sigue el patrón **Modelo-Vista-Controlador (MVC)** de Laravel, asegurando una separación clara entre la lógica de negocio y la interfaz de usuario.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+### Relaciones del Sistema:
+1.  **Usuarios y Vehículos:** Un usuario puede poseer múltiples vehículos (Relación 1:N).
+2.  **Marcas y Modelos:** Estructura jerárquica para evitar errores de escritura y normalizar los datos de la flota.
+3.  **Vehículos y Recibos:** Cada recibo está vinculado a un vehículo específico para mantener el historial clínico del coche.
+4.  **Talleres y Recibos:** Los recibos se asocian a talleres para identificar dónde se realizó cada servicio.
+
+---
+
+## 📸 Flujo de Trabajo del OCR
+
+1.  **Captura:** El usuario toma una foto del ticket físico desde su móvil o sube un archivo desde su ordenador.
+2.  **Procesamiento:** La imagen es enviada al motor de OCR integrado en el backend de Laravel.
+3.  **Validación:** El sistema muestra los datos detectados en un formulario pre-rellenado para que el usuario confirme o corrija la información.
+4.  **Almacenamiento:** Una vez confirmado, el recibo se guarda y el kilometraje del vehículo se actualiza automáticamente.
+
+---
+
+## 🛠️ Requisitos del Sistema
+
+* **PHP:** >= 8.2
+* **Composer:** Gestor de dependencias de PHP.
+* **Node.js & NPM:** Para compilar los assets del frontend.
+* **Extensión GD o Imagick:** Necesaria para el pre-procesamiento de imágenes antes del OCR.
+
+---
+
+## 🤝 Contribución
+
+Si deseas añadir nuevas funcionalidades (como gráficas de gastos anuales o recordatorios de ITV/Seguro):
+
+1.  Haz un **Fork** del proyecto.
+2.  Crea una rama con tu nueva función: `git checkout -b feature/NuevaMejora`.
+3.  Realiza un **Commit** con tus cambios: `git commit -m 'Añadir nueva funcionalidad'`.
+4.  Sube la rama: `git push origin feature/NuevaMejora`.
+5.  Abre un **Pull Request**.
+
+---
+
+## 👥 Autores
+
+Este proyecto ha sido desarrollado por:
+
+* **Hector Fernandez** - [@Hferpi](https://github.com/Hferpi)
+* **Alex Rojas** - [@Alex9902](https://github.com/Alex9902)
+
+---
+
+## 📄 Licencia
+
+Este proyecto se distribuye bajo una licencia que permite el uso, estudio, modificación y redistribución del software, siempre que se cumpla la siguiente condición:
+
+* **Reconocimiento:** Se debe otorgar el crédito apropiado, proporcionar un enlace a la licencia e indicar si se realizaron cambios. Debes mencionar explícitamente a los autores originales (**Hector Fernandez** y **Alex Rojas**) en cualquier copia o trabajo derivado.
