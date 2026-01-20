@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
+
 // Rutas públicas (sin middleware)
 Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
@@ -28,3 +29,6 @@ Route::middleware('authcheck')->group(function () {
     });
 
 });
+
+
+// Rutas para coches modelo y marca
