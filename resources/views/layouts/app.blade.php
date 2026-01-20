@@ -8,19 +8,21 @@
 </head>
 <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
     <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6">
-        <h3>Bienvenido, {{ session('usuario_nombre') ?? 'Invitado' }}</h3>
+        <h1 class="text-4xl font-bold text-cyan-900 mb-2">
+            Bienvenido, {{ session('usuario_nombre') ?? 'Invitado' }}
+        </h1>
         <div>
             <a href="{{ route('home') }}">
-                <button>Inicio</button>
+                <button class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md">Inicio</button>
             </a>
             <a href="{{ route('vehicles.index') }}">
-                <button>Vehiculos</button>
+                <button class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md">Vehiculos</button>
             </a>
             <a href="{{ route('history') }}">
-                <button>Historial</button>
+                <button class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md">Historial</button>
             </a>
             <a href="{{ route('logout') }}">
-                <button type="button">Salir</button>
+                <button type="button" class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md">Salir</button>
             </a>
         </div>
     </header>

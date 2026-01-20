@@ -9,8 +9,7 @@
 </head>
 
 <body
-    class="h-full flex flex-col items-center justify-center p-6 lg:p-8
-            bg-[url(/resources/img/logoBg.png)] bg-bottom-right bg-no-repeat">
+    class="h-full flex flex-col items-center justify-center p-6 lg:p-8">
 
     <header class="w-full max-w-[335px] lg:max-w-4xl mb-8 text-center">
         <h1 class="text-4xl font-bold text-cyan-900 mb-2">
@@ -28,16 +27,20 @@
     </header>
 
 
-    <main class="w-full max-w-[300px]  lg:max-w-4xl">
+    <main class="w-full max-w-[300px] md:max-w-[550px]  lg:max-w-3xl">
         @if (session('error'))
             <script>
                 alert("{{ session('error') }}");
             </script>
         @endif
 
-        <section class="w-full p-6 rounded-2xl h-[350px] flex justify-center bg-blue-300/70 text-left flex-col gap-4">
 
-            <h1 class="text-2xl m-2 font-semibold">Login</h1>
+        <section
+            class="relative w-full p-6 rounded-2xl h-[350px] flex justify-center bg-blue-300/70
+               text-left flex-col gap-4">
+            <img src="{{ asset('img/logoBg.png') }}"
+                    class="hidden md:block md:w-1/2 lg:w-3/5 absolute bottom-4 right-2  opacity-60 pointer-events-none" />
+            <h1 class="text-2xl m-2 font-semibold">Registro</h1>
 
 
             <form method="POST" action="{{ route('login.post') }}" class="w-60 flex flex-col gap-3">
