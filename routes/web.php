@@ -20,7 +20,7 @@ Route::middleware('authcheck')->group(function () {
     Route::prefix('vehicles')->group(function () {
         Route::view('/', 'vehicles.index')->name('vehicles.index');
         Route::view('/create', 'vehicles.create')->name('vehicles.create');
-        Route::view('/{id}', 'vehicles.show')->name('vehicles.show');
+        Route::view('/{1}', 'vehicles.repair')->name('vehicles.repair');
     });
 
     Route::prefix('invoices')->group(function () {
