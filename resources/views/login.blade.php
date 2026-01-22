@@ -40,7 +40,7 @@
                text-left flex-col gap-4">
             <img src="{{ asset('img/logoBg.png') }}"
                     class="hidden md:block md:w-1/2 lg:w-3/5 absolute bottom-4 right-2  opacity-60 pointer-events-none" />
-            <h1 class="text-2xl m-2 font-semibold">Registro</h1>
+            <h1 class="text-2xl m-2 font-semibold">Login</h1>
 
 
             <form method="POST" action="{{ route('login.post') }}" class="w-60 flex flex-col gap-3">

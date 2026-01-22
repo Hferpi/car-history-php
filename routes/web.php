@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\VehiculoController;
 
 // Rutas públicas (sin middleware)
 Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
@@ -22,6 +22,9 @@ Route::middleware('authcheck')->group(function () {
         Route::view('/create', 'vehicles.create')->name('vehicles.create');
         Route::view('/{id}', 'vehicles.show')->name('vehicles.show');
     });
+
+    // Es recomendable que esta ruta esté protegida por el middleware 'auth'
+    Route::post('/vehiculos', [VehiculoController::class, 'store'])->name('vehiculos.store');
 
     Route::prefix('invoices')->group(function () {
         Route::view('/', 'invoices.index')->name('invoices.index');
