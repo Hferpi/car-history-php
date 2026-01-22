@@ -9,12 +9,11 @@
         'anyo' => '2008',
         'matricula' => '3111GMB',
         'gasto_total' => '3450',
-
     ];
     $repair = [
         'fecha' => '01/03/2025',
         'precio' => '500',
-        'tipo_servicio' => 'aceite',
+        'tipo_servicio' => 'Cambio aceite y filtro',
         'observaciones' => 'muy bien hecho',
         'km' => '160590',
     ];
@@ -36,7 +35,7 @@
 
             <div class="w-full rounded-2xl border flex flex-col items-center ">
                 <img src="{{ $car['foto'] }}" alt="icon-car" class="w-60 md:w-80 lg:w-90 m-6 ">
-                <div class="bg-gray-600 w-full rounded-b-2xl p-4 items-center flex justify-around">
+                <div class="bg-sky-200 dark:bg-gray-600 w-full rounded-b-2xl p-4 items-center flex justify-around">
                     <h3 class="text-2xl"><span>{{ $car['anyo'] }}</span>
                         <span>{{ $car['marca'] }}</span>
                         <span>{{ $car['modelo'] }}</span>
@@ -46,10 +45,10 @@
              border border-gray-300 font-mono tracking-widest
              flex items-center gap-3">
 
-                        <!-- Banda azul UE -->
+
                         <span class="absolute left-0 top-0 h-full w-5 bg-blue-700 rounded-l-md"></span>
 
-                        <span class="pl-3 font-semibold text-lg">
+                        <span class="pl-3 font-semibold text-lg text-black">
                             {{ $car['matricula'] }}
                         </span>
                     </span>
@@ -59,7 +58,7 @@
         </section>
 
 
-        <div class="mt-6 w-full flex justify-around">
+        <div class="mt-10 w-full flex justify-around ">
             <a href="{{ route('vehicles.create') }}"
                 class="flex items-center gap-2 bg-blue-400 p-6 rounded hover:bg-blue-600 hover:text-white">
                 <i data-lucide="plus" class="w-5 h-5"></i>
@@ -80,21 +79,38 @@
 
         </div>
 
-        <div class="w-full mt-6 p-5 bg-gray-600 rounded-2xl
-            grid grid-cols-3 place-items-center text-left">
+        <div
+            class="relative w-full mt-10 p-5 bg-sky-200 dark:bg-gray-600 rounded-2xl
+            grid grid-cols-3 place-items-center text-center">
 
-            <i data-lucide="badge-check" class="w-6 h-6 text-green-400"></i>
-            <div>
-                <h4>Ultimo servicio</h4>
+            <h4
+                class="absolute -top-4 left-1/2 -translate-x-1/2
+               bg-sky-400 dark:bg-sky-500
+               px-4 py-1.5 rounded-full
+               text-sm font-semibold shadow">
+                Último servicio
+            </h4>
+
+            <i data-lucide="badge-check" class="w-6 h-6 text-green-700"></i>
+
+            <div class="mt-2">
                 <h3>{{ $repair['tipo_servicio'] }}</h3>
-                <p><span>{{ $repair['fecha'] }}</span><span class="ml-3">{{ $repair['km'] }}</span></p>
+                <p>
+                    {{ $repair['fecha'] }}
+
+                </p>
+                <p>
+                    {{ $repair['km'] }}km
+                </p>
             </div>
-            <p>{{ $repair['precio'] }}€</p>
+
+            <p class="font-semibold">{{ $repair['precio'] }}€</p>
         </div>
 
-        <div class="text-center w-full bg-gray-600 rounded-2xl mt-5 p-6">
+
+        <div class="text-center w-full bg-sky-200 dark:bg-gray-600 rounded-2xl mt-8 p-6">
             <h2>Gasto total / año</h2>
-            <p class="text-3xl text-red-600">{{$car['gasto_total']}}€</p>
+            <p class="text-3xl text-red-600">{{ $car['gasto_total'] }}€</p>
         </div>
     </div>
 @endsection

@@ -32,3 +32,24 @@ Route::middleware('authcheck')->group(function () {
 
 
 // Rutas para coches modelo y marca
+
+use App\Http\Controllers\VehicleController;
+
+Route::middleware('authcheck')->group(function () {
+
+    Route::prefix('vehicles')->group(function () {
+
+        Route::get('/', [VehicleController::class, 'index'])
+            ->name('vehicles.index');
+
+        Route::get('/create', [VehicleController::class, 'create'])
+            ->name('vehicles.create');
+
+        Route::post('/', [VehicleController::class, 'store'])
+            ->name('vehicles.store');
+
+        Route::get('/{vehicle}', [VehicleController::class, 'show'])
+            ->name('vehicles.show');
+    });
+});
+
