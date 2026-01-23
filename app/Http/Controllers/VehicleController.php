@@ -19,6 +19,17 @@ class VehicleController extends Controller
         return view('vehicles.create', compact('marcas'));
     }
 
+     public function garage()
+    {
+        $usuarioId = session('usuario_id');
+
+        $vehicles = Vehicle::where('usuario_id', $usuarioId)
+            ->with('modelo.marca')
+            ->get();
+
+        return view('vehicles.garage', compact('vehicles'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -62,3 +73,4 @@ class VehicleRepairController extends Controller
         return back()->with('success', 'Reparación guardada');
     }
 }
+

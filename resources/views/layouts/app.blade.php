@@ -20,13 +20,13 @@
                     <button
                         class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md">Inicio</button>
                 </a>
-                <a href="{{ route('vehicles.index') }}">
+                <a href="{{ route('vehicles.garage') }}">
                     <button
-                        class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md">Vehiculos</button>
+                        class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md">Garaje</button>
                 </a>
-                <a href="{{ route('history') }}">
+                <a href="{{ route('profile') }}">
                     <button
-                        class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md">Historial</button>
+                        class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md">Perfil</button>
                 </a>
                 <a href="{{ route('logout') }}">
                     <button type="button"

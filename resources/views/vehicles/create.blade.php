@@ -6,7 +6,7 @@
         'car1' => 'img/cars-icons/blue-rm.png',
         'car2' => 'img/cars-icons/cyan-rm.png',
         'car3' => 'img/cars-icons/jeep-rm.png',
-        'car4' => 'img/cars-icons/red-bg.png',
+        'car4' => 'img/cars-icons/red-rm.png',
     ];
     ?>
 
