@@ -16,6 +16,16 @@
             class="hidden md:block md:w-1/2 lg:w-3/5 absolute bottom-4 right-2  opacity-60 pointer-events-none" />
         <h1 class="text-2xl m-2 font-semibold">Crear un coche</h1>
 
+        <!--Depuracion de errores-->
+        @if ($errors->any())
+            <div style="background: rgba(255,0,0,0.2); color: red; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <form action="{{ route('vehicles.store') }}" method="POST" class="flex gap-4 flex-col w-60">
             @csrf
@@ -71,4 +81,57 @@
 
 
     </section>
+    <script>
+        // --- LÓGICA DE MARCAS Y MODELOS ---
+        const marcaSelect = document.getElementById('marca');
+        const modeloSelect = document.getElementById('modelo');
+        const marcasData = JSON.parse(marcaSelect.getAttribute('data-marcas'));
+
+        marcaSelect.addEventListener('change', function() {
+            const marcaId = this.value;
+            modeloSelect.innerHTML = '<option value="">Selecciona modelo</option>';
+
+            if (marcaId) {
+                // Buscamos la marca seleccionada en el JSON
+                const marcaSeleccionada = marcasData.find(m => m.id == marcaId);
+
+                if (marcaSeleccionada && marcaSeleccionada.modelos) {
+                    marcaSeleccionada.modelos.forEach(modelo => {
+                        const option = document.createElement('option');
+                        option.value = modelo.id;
+                        option.textContent = modelo.nombre;
+                        modeloSelect.appendChild(option);
+                    });
+                    modeloSelect.disabled = false;
+                }
+            } else {
+                modeloSelect.disabled = true;
+            }
+        });
+
+        // --- LÓGICA DE SELECCIÓN DE AVATAR ---
+        const avatarButtons = document.querySelectorAll('.avatar-btn');
+        const avatarHiddenInput = document.getElementById('avatar-hidden');
+
+        avatarButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Quitar el borde resaltado de todos
+                avatarButtons.forEach(b => b.classList.remove('bg-blue-500', 'ring-2', 'ring-blue-600'));
+
+                // Añadir resaltado al seleccionado
+                this.classList.add('bg-blue-500', 'ring-2', 'ring-blue-600');
+
+                // Guardar el valor en el input oculto
+                avatarHiddenInput.value = this.getAttribute('data-value');
+            });
+        });
+    </script>
+
+    <style>
+        /* Un pequeño estilo para que el botón seleccionado se note */
+        .avatar-btn.bg-blue-500 {
+            transition: all 0.2s;
+            transform: scale(1.1);
+        }
+    </style>
 @endsection

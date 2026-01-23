@@ -1,4 +1,8 @@
-  <section class="w-full items-center grid lg:grid-cols-3 md:grid-cols-2 gap-2.5">
+@extends('layouts.app')
+
+@section('content')
+
+{{-- <section class="w-full items-center grid lg:grid-cols-3 md:grid-cols-2 gap-2.5">
 
 
             <div class="w-full rounded-2xl border flex flex-col items-center ">
@@ -31,4 +35,5 @@
                     <span class="bg-gray-400 p-2 rounded-2xl">{{ $car['matricula'] }}</span>
                 </div>
             </div>
-        </section>
+        </section> --}}
+@endsection

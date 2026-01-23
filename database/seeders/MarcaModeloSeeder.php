@@ -5,7 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Marca;
 use App\Models\Modelo;
-
+/*El comando para instalar el seeder es:
+php artisan db:seed --class=MarcaModeloSeeder*/
 class MarcaModeloSeeder extends Seeder
 {
     public function run(): void

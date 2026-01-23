@@ -12,8 +12,10 @@ class Vehicle extends Model
     protected $fillable = [
         'usuario_id',
         'modelo_id',
+        'marca',
         'matricula',
         'kilometros',
+        'avatar',
     ];
 
     public function usuario()

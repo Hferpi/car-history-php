@@ -40,6 +40,8 @@ CREATE TABLE vehiculo (
     modelo_id text NOT NULL,
     marca text not null,
     kilometros INTEGER,
+    avatar TEXT,
+    anio INTEGER,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuario(id) ON DELETE CASCADE,
     FOREIGN KEY (modelo_id) REFERENCES modelo(id)

@@ -69,4 +69,12 @@ class AuthController extends Controller
         $request->session()->forget(['usuario_id', 'usuario_nombre']);
         return redirect()->route('login');
     }
+
+    public function index()
+{
+    $usuario_id = session('usuario_id');
+    $vehiculos = Vehicle::with('modelo')->where('usuario_id', $usuario_id)->get();
+
+    return view('garage', compact('vehiculos'));
+}
 }

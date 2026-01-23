@@ -16,7 +16,7 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.po
 Route::middleware('authcheck')->group(function () {
     Route::view('/', 'home')->name('home');
     Route::view('/history', 'history')->name('history');
-
+    // Vehiculos
     Route::prefix('vehicles')->group(function () {
         Route::view('/', 'vehicles.index')->name('vehicles.index');
         Route::view('/create', 'vehicles.create')->name('vehicles.create');
