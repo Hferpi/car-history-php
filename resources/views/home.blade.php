@@ -2,7 +2,8 @@
 
 @section('content')
     <?php
-    $car = [
+    $vehicle = [
+        'id' => 1,
         'foto' => '/img/cars-icons/jeep-rm.png',
         'marca' => 'ford',
         'modelo' => 'focus',
@@ -34,11 +35,11 @@
         <section class="w-full items-center ">
 
             <div class="w-full rounded-2xl border flex flex-col items-center ">
-                <img src="{{ $car['foto'] }}" alt="icon-car" class="w-60 md:w-80 lg:w-90 m-6 ">
+                <img src="{{ $vehicle['foto'] }}" alt="icon-car" class="w-60 md:w-80 lg:w-90 m-6 ">
                 <div class="bg-sky-200 dark:bg-gray-600 w-full rounded-b-2xl p-4 items-center flex justify-around">
-                    <h3 class="text-2xl"><span>{{ $car['anyo'] }}</span>
-                        <span>{{ $car['marca'] }}</span>
-                        <span>{{ $car['modelo'] }}</span>
+                    <h3 class="text-2xl"><span>{{ $vehicle['anyo'] }}</span>
+                        <span>{{ $vehicle['marca'] }}</span>
+                        <span>{{ $vehicle['modelo'] }}</span>
                     </h3>
                     <span
                         class="relative bg-white px-4 py-2 rounded-md
@@ -49,7 +50,7 @@
                         <span class="absolute left-0 top-0 h-full w-5 bg-blue-700 rounded-l-md"></span>
 
                         <span class="pl-3 font-semibold text-lg text-black">
-                            {{ $car['matricula'] }}
+                            {{ $vehicle['matricula'] }}
                         </span>
                     </span>
 
@@ -65,7 +66,9 @@
                 Crear
             </a>
 
-            <a href="{{ route('vehicles.repair') }}"
+    
+
+            <a href="{{ route('vehicles.repair', $vehicle['id']) }}"
                 class="flex items-center gap-2 bg-blue-400 p-2 rounded hover:bg-blue-600 hover:text-white">
                 <i data-lucide="wrench"></i>
                 Reparacion
@@ -110,7 +113,7 @@
 
         <div class="text-center w-full bg-sky-200 dark:bg-gray-600 rounded-2xl mt-8 p-6">
             <h2>Gasto total / año</h2>
-            <p class="text-3xl text-red-600">{{ $car['gasto_total'] }}€</p>
+            <p class="text-3xl text-red-600">{{ $vehicle['gasto_total'] }}€</p>
         </div>
     </div>
 @endsection
