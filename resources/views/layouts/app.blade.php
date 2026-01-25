@@ -11,26 +11,26 @@
 <body
     class="bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
     <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6">
-        <h1 class="text-4xl font-bold text-cyan-900 mb-2">
+        <h1 class="text-4xl font-bold text-cyan-900 dark:text-cyan-400 mb-2">
             Bienvenido, {{ session('usuario_nombre') ?? 'Invitado' }}
         </h1>
         <div class="flex justify-between p-4">
             <div>
                 <a href="{{ route('home') }}">
                     <button
-                        class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md">Inicio</button>
+                        class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md transition">Inicio</button>
                 </a>
-                <a href="{{ route('vehicles.create') }}">
+                <a href="{{ route('vehicles.index') }}">
                     <button
-                        class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md">Vehiculos</button>
+                        class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md transition">Vehiculos</button>
                 </a>
                 <a href="{{ route('history') }}">
                     <button
-                        class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md">Historial</button>
+                        class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md transition">Historial</button>
                 </a>
                 <a href="{{ route('logout') }}">
                     <button type="button"
-                        class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md">Salir</button>
+                        class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md transition">Salir</button>
                 </a>
             </div>
             <div>
@@ -73,6 +73,8 @@
             @yield('content')
         </main>
     </div>
+
+    <x-footer />
 </body>
 
 </html>

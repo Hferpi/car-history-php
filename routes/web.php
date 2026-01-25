@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\VehiculoController;
+use App\Http\Controllers\VehicleController;
 
-// Rutas públicas (sin middleware)
+// RUTAS PUBLICAS (Login y Registro)
 Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -12,47 +12,34 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/register', function () { return view('register'); })->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 
-// Rutas protegidas por login
+
+// RUTAS PROTEGIDAS
 Route::middleware('authcheck')->group(function () {
+
+    // Inicio e Historial
     Route::view('/', 'home')->name('home');
     Route::view('/history', 'history')->name('history');
-    // Vehiculos
+
+    // --- GRUPO DE VEHÍCULOS (EL GARAJE) ---
     Route::prefix('vehicles')->group(function () {
-        Route::view('/', 'vehicles.index')->name('vehicles.index');
-        Route::view('/create', 'vehicles.create')->name('vehicles.create');
-        Route::view('/{1}', 'vehicles.repair')->name('vehicles.repair');
+
+        // Listado de vehículos (Vista garage.blade.php a través del controlador)
+        Route::get('/', [VehicleController::class, 'index'])->name('vehicles.index');
+
+        // Formulario para crear un coche
+        Route::get('/create', [VehicleController::class, 'create'])->name('vehicles.create');
+
+        // Guardar el coche en la base de datos
+        Route::post('/', [VehicleController::class, 'store'])->name('vehicles.store');
+
+        // Ver detalle de un vehículo o reparaciones
+        Route::get('/{vehicle}', [VehicleController::class, 'show'])->name('vehicles.show');
     });
 
-    // Es recomendable que esta ruta esté protegida por el middleware 'auth'
-    Route::post('/vehiculos', [VehiculoController::class, 'store'])->name('vehiculos.store');
-
+    // --- GRUPO DE FACTURAS ---
     Route::prefix('invoices')->group(function () {
         Route::view('/', 'invoices.index')->name('invoices.index');
         Route::view('/create', 'invoices.create')->name('invoices.create');
     });
 
 });
-
-
-// Rutas para coches modelo y marca
-
-use App\Http\Controllers\VehicleController;
-
-Route::middleware('authcheck')->group(function () {
-
-    Route::prefix('vehicles')->group(function () {
-
-        Route::get('/', [VehicleController::class, 'index'])
-            ->name('vehicles.index');
-
-        Route::get('/create', [VehicleController::class, 'create'])
-            ->name('vehicles.create');
-
-        Route::post('/', [VehicleController::class, 'store'])
-            ->name('vehicles.store');
-
-        Route::get('/{vehicle}', [VehicleController::class, 'show'])
-            ->name('vehicles.show');
-    });
-});
-
