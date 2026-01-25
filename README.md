@@ -39,8 +39,40 @@ El proyecto utiliza las siguientes entidades principales:
    ```bash
    git clone [https://github.com/Hferpi/car-history-php.git](hhttps://github.com/Hferpi/car-history-php.git)
    cd car_history_php
+    ```
 
-   ## 🌟 Funcionalidades Principales
+2. **Instalar Dependencias**
+    ```bash
+    composer install
+    npm install
+
+    #Crear .env en raiz del proyecto
+    touch .env
+
+    # Instalamos sqlite
+    apt install sqlite3
+    touch database/database.sqlite
+    ```
+
+3. **Importar tablas de init_sqlite.sql**
+    ```bash
+    sqlite3 database/database.sqlite < database/init_sqlite.sql
+    ```
+
+4. **Cargar Seeders**
+    ```bash
+    php artisan db:seed --class=MarcaModeloSeeder
+    ```
+
+5. **Arrancar servicios**
+    ```bash
+    php artisan serve
+    npm run dev
+    ```
+
+---
+
+## 🌟 Funcionalidades Principales
 
 * **Perfil de Usuario:** Sistema de autenticación para que cada dueño gestione su propia flota de vehículos.
 * **Gestión de Vehículos:** Registro detallado incluyendo matrícula, marca, modelo y kilometraje actual.

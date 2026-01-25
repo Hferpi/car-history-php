@@ -16,30 +16,28 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.po
 // RUTAS PROTEGIDAS
 Route::middleware('authcheck')->group(function () {
 
-    // Inicio e Historial
-    Route::view('/', 'home')->name('home');
+    //header y sus rutas
+    Route::get('/', [VehicleController::class, 'home'])->name('home');
     Route::view('/history', 'history')->name('history');
+
+    Route::get('/reparacion-proximamente', function() {
+        return "Esta sección estará disponible próximamente.";
+    })->name('vehicles.repair');
+
 
     // --- GRUPO DE VEHÍCULOS (EL GARAJE) ---
     Route::prefix('vehicles')->group(function () {
 
-        // Listado de vehículos (Vista garage.blade.php a través del controlador)
+        //vista garage a traves de controlador
         Route::get('/', [VehicleController::class, 'index'])->name('vehicles.index');
 
-        // Formulario para crear un coche
+        //form para crear coche
         Route::get('/create', [VehicleController::class, 'create'])->name('vehicles.create');
 
-        // Guardar el coche en la base de datos
+        //guardar coche en la bd
         Route::post('/', [VehicleController::class, 'store'])->name('vehicles.store');
 
-        // Ver detalle de un vehículo o reparaciones
+        //vver detalle de vehiculo
         Route::get('/{vehicle}', [VehicleController::class, 'show'])->name('vehicles.show');
     });
-
-    // --- GRUPO DE FACTURAS ---
-    Route::prefix('invoices')->group(function () {
-        Route::view('/', 'invoices.index')->name('invoices.index');
-        Route::view('/create', 'invoices.create')->name('invoices.create');
-    });
-
 });
