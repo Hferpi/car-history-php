@@ -45,8 +45,8 @@ class AuthController extends Controller
         // 1. Validar los datos
         $request->validate([
             'nombre'   => 'required|string|max:255',
-            'email'    => 'required|email|unique:usuario,email', // <-- CAMBIADO A 'usuario'
-            'password' => 'required|min:6', // Quitamos 'confirmed' si no tienes un segundo input de confirmación
+            'email'    => 'required|email|unique:usuario,email',
+            'password' => 'required|min:6',
         ]);
 
         // 2. Crear el usuario
