@@ -86,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
     const buttons = document.querySelectorAll('.avatar-btn');
     const hiddenInput = document.getElementById('avatar-hidden');
+    const previsualizacion = document.getElementById('img-avatar');
 
     buttons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -95,6 +96,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Guardar valor en el input oculto
             hiddenInput.value = btn.dataset.value;
+            let ruta = 'http://127.0.0.1:8000/'+btn.dataset.value;
+            previsualizacion.setAttribute('src', ruta) ;
+            console.log(btn.dataset.value)
         });
     });
 });
