@@ -20,11 +20,11 @@
                     <button
                         class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md transition">Inicio</button>
                 </a>
-                <a href="{{ route('vehicles.garage') }}">
+                <a href="{{ route('vehicles.index') }}">
                     <button
                         class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md transition">Vehiculos</button>
                 </a>
-                <a href="{{ route('profile') }}">
+                <a href="#">
                     <button
                         class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md transition">Historial</button>
                 </a>
