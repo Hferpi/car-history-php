@@ -3,8 +3,12 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "dev": "vite",
         "build": "vite build",
-        "dev": "vite"
+
+        "setup": "npm run db:init && npm run db:seed",
+        "db:init": "mkdir -p database && [ -f database/database.sqlite ] || (touch database/database.sqlite && sqlite3 database/database.sqlite < database/init_sqlite.sql)",
+        "db:seed": "php artisan db:seed --class=MarcaModeloSeeder"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",

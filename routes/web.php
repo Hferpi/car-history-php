@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\VehicleRepairController;
 
 // RUTAS PUBLICAS (Login y Registro)
 Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
@@ -20,16 +21,20 @@ Route::middleware('authcheck')->group(function () {
     Route::get('/', [VehicleController::class, 'home'])->name('home');
     Route::view('/history', 'history')->name('history');
 
-    Route::get('/reparacion-proximamente', function() {
-        return "Esta sección estará disponible próximamente.";
-    })->name('vehicles.repair');
+   Route::get('/vehicles/{vehicle}/repair', [VehicleRepairController::class, 'create'])
+     ->name('vehicles.repair');
+
+Route::post('/vehicles/{vehicle}/repairs', [VehicleRepairController::class, 'store'])
+     ->name('repairs.store');
+
 
 
     // --- GRUPO DE VEHÍCULOS (EL GARAJE) ---
     Route::prefix('vehicles')->group(function () {
 
         //vista garage a traves de controlador
-        Route::get('/', [VehicleController::class, 'index'])->name('vehicles.index');
+
+        // Route::get('/', [VehicleController::class, 'index'])->name('vehicles.index');
 
         //form para crear coche
         Route::get('/create', [VehicleController::class, 'create'])->name('vehicles.create');
@@ -40,4 +45,10 @@ Route::middleware('authcheck')->group(function () {
         //vver detalle de vehiculo
         Route::get('/{vehicle}', [VehicleController::class, 'show'])->name('vehicles.show');
     });
+
+
+    Route::get('/garaje', [VehicleController::class, 'index'])
+    ->name('garaje');
 });
+
+

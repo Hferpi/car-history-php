@@ -20,9 +20,9 @@
                     <button
                         class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md transition">Inicio</button>
                 </a>
-                <a href="{{ route('vehicles.index') }}">
+                <a href="{{ route('garaje') }}">
                     <button
-                        class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md transition">Vehiculos</button>
+                        class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md transition">Garaje</button>
                 </a>
                 <a href="#">
                     <button

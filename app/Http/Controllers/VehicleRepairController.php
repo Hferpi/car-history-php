@@ -11,8 +11,7 @@ class VehicleRepairController extends Controller
     public function create(Vehicle $vehicle)
     {
         $usuarioId = session('usuario_id');
-        abort_if($vehicle->usuario_id !== auth()->$usuarioId, 403);
-
+        abort_if($vehicle->usuario_id !== $usuarioId, 403);
 
         return view('vehicles.repair', compact('vehicle'));
     }
@@ -20,25 +19,28 @@ class VehicleRepairController extends Controller
     public function store(Request $request, Vehicle $vehicle)
     {
         $usuarioId = session('usuario_id');
-        abort_if($vehicle->usuario_id !== auth()->$usuarioId, 403);
+        abort_if($vehicle->usuario_id !== $usuarioId, 403);
 
         $data = $request->validate([
-            'taller_id' => 'required|exists:taller,id',
             'fecha' => 'required|date',
             'precio' => 'nullable|numeric',
             'tipo_servicio' => 'nullable|string|max:255',
             'observaciones' => 'nullable|string',
-            'foto' => 'nullable|image|max:2048',
+            'foto' => 'nullable|image|max:5120',
         ]);
 
-        $data['vehiculo_id'] = $vehicle->id;
+        // Crear reparación asociada al vehículo
+        $repair = $vehicle->repairs()->create($data);
 
+        // Guardar recibo si existe
         if ($request->hasFile('foto')) {
-            $data['foto'] = $request->file('foto')
-                ->store('repairs', 'public');
-        }
+            $path = $request->file('foto')->store('receipts', 'public');
 
-        VehicleRepair::create($data);
+            $repair->receipt()->create([
+                'path' => $path,
+                'disk' => 'public', // muy buena práctica
+            ]);
+        }
 
         return back()->with('success', 'Reparación guardada');
     }
