@@ -60,18 +60,36 @@ class VehicleController extends Controller
 
     return redirect()->route('vehicles.index')->with('success', 'Vehículo creado correctamente');
 }
+    //Seleccionar coche que se vera en /home
+    public function select(Request $request) {
+        session(['selected_vehicle_id' => $request->id]);
+        return response()->json(['status' => 'success']);
+    }
 
-    //Recibe el utimo coche y recibo hacia /home
     public function home()
     {
         $usuario_id = session('usuario_id');
 
-        $ultimoVehiculo = Vehicle::with('modelo')
-            ->where('usuario_id', $usuario_id)
-            ->latest('id')
-            ->first();
+        //Busca vehiculo seleccionado en sesion
+        $idSeleccionado = session('selected_vehicle_id');
+        $ultimoVehiculo = null;
 
-        //Hay que cambiarlo cuando se haga la parte de recibos
+        if ($idSeleccionado) {
+            $ultimoVehiculo = Vehicle::with('modelo')
+                ->where('usuario_id', $usuario_id)
+                ->where('id', $idSeleccionado)
+                ->first();
+        }
+
+        //Si no hay seleccióncarga el ultimo añadido
+        if (!$ultimoVehiculo) {
+            $ultimoVehiculo = Vehicle::with('modelo')
+                ->where('usuario_id', $usuario_id)
+                ->latest('id')
+                ->first();
+        }
+
+        //logica repair provisinonal
         $repair = [
             'fecha' => '01/03/2025',
             'precio' => '500',
