@@ -70,6 +70,11 @@ class VehicleController extends Controller
             ->route('garaje')
             ->with('success', 'Vehículo creado correctamente');
     }
+    //Seleccionar coche que se vera en /home
+    public function select(Request $request) {
+        session(['selected_vehicle_id' => $request->id]);
+        return response()->json(['status' => 'success']);
+    }
 
     // =====================
     // HOME / DASHBOARD
@@ -78,15 +83,24 @@ class VehicleController extends Controller
     {
         $usuario_id = session('usuario_id');
 
-        $ultimoVehiculo = Vehicle::with([
-            'modelo',
-            'repairs' => function ($q) {
-                $q->orderByDesc('fecha');
-            }
-        ])
-            ->where('usuario_id', $usuario_id)
-            ->latest('id')
-            ->first();
+        //Busca vehiculo seleccionado en sesion
+        $idSeleccionado = session('selected_vehicle_id');
+        $ultimoVehiculo = null;
+
+        if ($idSeleccionado) {
+            $ultimoVehiculo = Vehicle::with('modelo')
+                ->where('usuario_id', $usuario_id)
+                ->where('id', $idSeleccionado)
+                ->first();
+        }
+
+        //Si no hay seleccióncarga el ultimo añadido
+        if (!$ultimoVehiculo) {
+            $ultimoVehiculo = Vehicle::with('modelo')
+                ->where('usuario_id', $usuario_id)
+                ->latest('id')
+                ->first();
+        }
 
         $ultimoServicio = $ultimoVehiculo
             ? $ultimoVehiculo->repairs->first()

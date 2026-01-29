@@ -44,6 +44,9 @@ Route::post('/vehicles/{vehicle}/repairs', [VehicleRepairController::class, 'sto
 
         //vver detalle de vehiculo
         Route::get('/{vehicle}', [VehicleController::class, 'show'])->name('vehicles.show');
+
+        //seleccionar coche para ver en home
+        Route::post('/vehicles/select', [VehicleController::class, 'select'])->name('vehicles.select');
     });
 
 
