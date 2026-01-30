@@ -32,15 +32,15 @@ class VehicleRepairController extends Controller
         // Crear reparación asociada al vehículo
         $repair = $vehicle->repairs()->create($data);
 
-        // Guardar recibo si existe
         if ($request->hasFile('foto')) {
             $path = $request->file('foto')->store('receipts', 'public');
 
-            $repair->receipt()->create([
-                'path' => $path,
-                'disk' => 'public', // muy buena práctica
+            $repair->update([
+                'foto_path' => $path,
+                'foto_disk' => 'public',
             ]);
         }
+
 
         return back()->with('success', 'Reparación guardada');
     }

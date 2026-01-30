@@ -84,6 +84,12 @@ El proyecto utiliza las siguientes entidades principales:
  
     ```
 
+    ```bash
+    # Instruccion para guargar los recibos.
+
+    php artisan storage:link
+    ```
+
 
 
 ## 🌟 Funcionalidades Principales

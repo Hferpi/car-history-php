@@ -16,6 +16,8 @@ class Recibo extends Model
         'precio',
         'tipo_servicio',
         'observaciones',
+        'foto_path',
+        'foto_disk',
     ];
 
     public function vehiculo()

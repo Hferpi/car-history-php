@@ -69,5 +69,7 @@ CREATE TABLE recibo (
     precio REAL,
     tipo_servicio TEXT,
     observaciones TEXT,
+    foto_patch TEXT,
+    foto_disk TEXT,
     FOREIGN KEY (vehiculo_id) REFERENCES vehiculo(id) ON DELETE CASCADE
 );
