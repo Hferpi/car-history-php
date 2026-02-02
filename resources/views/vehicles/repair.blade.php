@@ -1,12 +1,9 @@
 @extends('layouts.app')
 
-
 @section('content')
-<section
-    class="relative w-full p-6 rounded-2xl flex justify-center
-           bg-sky-200 dark:bg-gray-600 text-left flex-col gap-6">
+<section class="relative w-full p-6 rounded-2xl flex justify-center bg-sky-200 dark:bg-gray-600 text-left flex-col gap-6">
 
-    <div class="w-full flex flex-col item-center max-w-4xl mx-auto bg-white dark:bg-gray-700 p-6 rounded-xl shadow">
+    <div class="w-full flex flex-col items-center max-w-4xl mx-auto bg-white dark:bg-gray-700 p-6 rounded-xl shadow">
 
         {{-- VEHÍCULO --}}
         <h1 class="text-2xl font-semibold mb-4">
@@ -14,7 +11,7 @@
         </h1>
 
         <div class="mb-6 text-sm text-gray-700 dark:text-gray-200">
-            <p><strong>Matrícula:</strong> {{ $vehicle ->matricula}}</p>
+            <p><strong>Matrícula:</strong> {{ $vehicle->matricula }}</p>
             <p><strong>Kilómetros:</strong> {{ $vehicle->kilometros }} km</p>
         </div>
 
@@ -29,96 +26,90 @@
             </div>
         @endif
 
+        {{-- FORMULARIO OCR --}}
+        <div class="mb-6 w-full flex flex-col items-center">
+            <h2 class="text-xl font-semibold mb-2">Extraer datos con OCR</h2>
+            <form action="{{ route('repairs.ocr', $vehicle->id) }}" method="POST" enctype="multipart/form-data" class="flex flex-col items-center gap-2 w-64">
+                @csrf
+                <input type="file" name="foto" accept="image/*" required class="p-2 rounded border cursor-pointer">
+                <button type="submit" class="mt-2 p-2 bg-green-600 text-white rounded hover:bg-green-700">Extraer datos</button>
+            </form>
+        </div>
+
         {{-- FORMULARIO REPARACIÓN --}}
-        <form
-            action="{{ route('repairs.store', $vehicle->id) }}"
-            method="POST"
-            enctype="multipart/form-data"
-            class="flex items-center flex-col gap-4 w-full"
-        >
-            @csrf
+        <div class="w-full flex flex-col items-center">
+            <h2 class="text-xl font-semibold mb-2">Rellenar o revisar datos</h2>
+            <form action="{{ route('repairs.store', $vehicle->id) }}" method="POST" enctype="multipart/form-data" class="flex flex-col items-center gap-4 w-full">
+                @csrf
 
-            {{-- TALLER --}}
-            <div class="flex flex-col w-64 gap-1">
-                <label class="font-semibold">Taller</label>
-                <input type="text"
-                name="taller_id"
-                placeholder="Añade el taller"
-                class="p-2 rounded border ">
-            </div>
+                {{-- Si venimos del OCR, pasar la foto --}}
+                @if(!empty($ocrData['foto_guardada'] ?? null))
+                    <input type="hidden" name="foto_guardada" value="{{ $ocrData['foto_guardada'] }}">
+                @endif
 
-            {{-- FECHA --}}
-            <div class="flex flex-col w-64 gap-1">
-                <label class="font-semibold">Fecha</label>
-                <input
-                    type="date"
-                    name="fecha"
-                    required
-                    class="p-2 rounded border "
-                >
-            </div>
+                {{-- TALLER --}}
+                <div class="flex flex-col w-64 gap-1">
+                    <label class="font-semibold">Taller</label>
+                    <input type="text"
+                           name="taller_nombre"
+                           value="{{ old('taller_nombre', $ocrData['taller_nombre'] ?? '') }}"
+                           placeholder="Nombre del taller"
+                           class="p-2 rounded border">
+                </div>
 
-            {{-- TIPO SERVICIO --}}
-            <div class="flex flex-col w-64 gap-1">
-                <label class="font-semibold">Tipo de servicio</label>
-                <input
-                    type="text"
-                    name="tipo_servicio"
-                    placeholder="Cambio de aceite, frenos, ITV..."
-                    class="p-2 rounded border"
-                >
-            </div>
+                {{-- FECHA --}}
+                <div class="flex flex-col w-64 gap-1">
+                    <label class="font-semibold">Fecha</label>
+                    <input type="date"
+                           name="fecha"
+                           value="{{ old('fecha', $ocrData['fecha'] ?? '') }}"
+                           required
+                           class="p-2 rounded border">
+                </div>
 
-            {{-- OBSERVACIONES --}}
-            <div class="flex flex-col w-64 gap-1">
-                <label class="font-semibold">Observaciones</label>
-                <textarea
-                    name="observaciones"
-                    rows="4"
-                    class="p-2 rounded border"
-                ></textarea>
-            </div>
+                {{-- TIPO SERVICIO --}}
+                <div class="flex flex-col w-64 gap-1">
+                    <label class="font-semibold">Tipo de servicio</label>
+                    <input type="text"
+                           name="tipo_servicio"
+                           value="{{ old('tipo_servicio', $ocrData['tipo_servicio'] ?? '') }}"
+                           placeholder="Cambio de aceite, frenos, ITV..."
+                           class="p-2 rounded border">
+                </div>
 
-              {{-- PRECIO --}}
-            <div class="flex flex-col w-64 gap-1">
-                <label class="font-semibold">Precio (€)</label>
-                <input
-                    type="number"
-                    step="0.01"
-                    name="precio"
-                    class="p-2 rounded border"
-                >
-            </div>
+                {{-- OBSERVACIONES --}}
+                <div class="flex flex-col w-64 gap-1">
+                    <label class="font-semibold">Observaciones</label>
+                    <textarea name="observaciones" rows="4" class="p-2 rounded border">{{ old('observaciones', $ocrData['observaciones'] ?? '') }}</textarea>
+                </div>
 
-            {{-- FOTO --}}
-            <div class="flex flex-col w-64 gap-1">
-                <label class="font-semibold">Foto del recibo</label>
-                <input
-                    type="file"
-                    name="foto"
-                    accept="image/*"
-                    class="p-2 rounded border cursor-pointer"
-                >
-            </div>
+                {{-- PRECIO --}}
+                <div class="flex flex-col w-64 gap-1">
+                    <label class="font-semibold">Precio (€)</label>
+                    <input type="number"
+                           step="0.01"
+                           name="precio"
+                           value="{{ old('precio', $ocrData['precio'] ?? '') }}"
+                           class="p-2 rounded border">
+                </div>
 
-            {{-- BOTÓN --}}
-            <div class="w-64 flex items-center gap-2">
-            <button
-                type="submit"
-                class="mt-4 p-3 w-36 bg-blue-500 text-white rounded
-                       hover:bg-blue-600 transition cursor-pointer"
-            >
-                Guardar reparación
-            </button>
-              <button
-                type="reset"
-                class="mt-4 p-3 w-26 bg-blue-500 text-white rounded
-                       hover:bg-blue-800 transition cursor-pointer"
-            >
-                Borrar datos
-            </button>
-            </div>
-        </form>
+                {{-- FOTO --}}
+                    <div class="flex flex-col w-64 gap-1">
+                        <label class="font-semibold">Foto del recibo</label>
+                        @if (isset($ocrData['image_path']))
+                            <img src="{{ asset('storage/' . $ocrData['image_path']) }}" class="mb-2 w-48">
+                            <input type="hidden" name="foto_guardada" value="{{ $ocrData['image_path'] }}" required>
+                        @endif
+                        <input type="file" name="foto" accept="image/*" class="p-2 rounded border cursor-pointer">
+                    </div>
+
+                {{-- BOTONES --}}
+                <div class="w-64 flex items-center gap-2">
+                    <button type="submit" class="mt-4 p-3 w-36 bg-blue-500 text-white rounded hover:bg-blue-600 transition cursor-pointer">Guardar reparación</button>
+                    <button type="reset" class="mt-4 p-3 w-36 bg-gray-400 text-white rounded hover:bg-gray-600 transition cursor-pointer">Borrar datos</button>
+                </div>
+            </form>
+        </div>
     </div>
 </section>
 @endsection

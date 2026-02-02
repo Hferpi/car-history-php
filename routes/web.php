@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\VehicleRepairController;
+use App\Http\Controllers\OCRextractInfo;
 
 // RUTAS PUBLICAS (Login y Registro)
 Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
@@ -19,13 +20,14 @@ Route::middleware('authcheck')->group(function () {
 
     //header y sus rutas
     Route::get('/', [VehicleController::class, 'home'])->name('home');
-    Route::view('/history', 'history')->name('history');
+    Route::get('/history', [VehicleController::class, 'history'])->name('history');
 
-   Route::get('/vehicles/{vehicle}/repair', [VehicleRepairController::class, 'create'])
-     ->name('vehicles.repair');
 
-Route::post('/vehicles/{vehicle}/repairs', [VehicleRepairController::class, 'store'])
-     ->name('repairs.store');
+    Route::get('/vehicles/{vehicle}/repair', [VehicleRepairController::class, 'create'])
+        ->name('vehicles.repair');
+
+    Route::post('/vehicles/{vehicle}/repairs', [VehicleRepairController::class, 'store'])
+        ->name('repairs.store');
 
 
 
@@ -46,12 +48,17 @@ Route::post('/vehicles/{vehicle}/repairs', [VehicleRepairController::class, 'sto
         Route::get('/{vehicle}', [VehicleController::class, 'show'])->name('vehicles.show');
 
         //seleccionar coche para ver en home
-        Route::post('/vehicles/select', [VehicleController::class, 'select'])->name('vehicles.select');
+        Route::post('/select', [VehicleController::class, 'select'])->name('vehicles.select');
     });
 
 
+
+
+    Route::post('/vehicles/{vehicle}/repairs/ocr', [OCRextractInfo::class, 'extract'])
+        ->name('repairs.ocr');
+
+
+
     Route::get('/garaje', [VehicleController::class, 'index'])
-    ->name('garaje');
+        ->name('garaje');
 });
-
-

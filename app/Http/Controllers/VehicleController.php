@@ -70,11 +70,27 @@ class VehicleController extends Controller
             ->route('garaje')
             ->with('success', 'Vehículo creado correctamente');
     }
+
+
+    // =====================
     //Seleccionar coche que se vera en /home
-    public function select(Request $request) {
-        session(['selected_vehicle_id' => $request->id]);
-        return response()->json(['status' => 'success']);
+    // =====================
+    public function select(Request $request)
+    {
+        $usuarioId = session('usuario_id');
+
+        $vehicle = Vehicle::where('usuario_id', $usuarioId)
+            ->where('id', $request->id)
+            ->firstOrFail();
+
+        session(['selected_vehicle_id' => $vehicle->id]);
+
+        return response()->json([
+            'status' => 'success',
+            'selected_vehicle_id' => $vehicle->id
+        ]);
     }
+
 
     // =====================
     // HOME / DASHBOARD
@@ -107,5 +123,46 @@ class VehicleController extends Controller
             : null;
 
         return view('home', compact('ultimoVehiculo', 'ultimoServicio'));
+    }
+
+
+    // =====================
+    // HISTORY
+    // =====================
+    public function history()
+    {
+        $usuario_id = session('usuario_id');
+
+        // Vehículo seleccionado en sesión
+        $idSeleccionado = session('selected_vehicle_id');
+
+        $ultimoVehiculo = null;
+        $ultimoServicio = null;
+
+        if ($idSeleccionado) {
+            $ultimoVehiculo = Vehicle::with(['modelo', 'repairs' => function ($q) {
+                $q->orderByDesc('fecha');
+            }])
+                ->where('usuario_id', $usuario_id)
+                ->where('id', $idSeleccionado)
+                ->first();
+        }
+
+        // Si no hay seleccionado, coger el último creado
+        if (!$ultimoVehiculo) {
+            $ultimoVehiculo = Vehicle::with(['modelo', 'repairs' => function ($q) {
+                $q->orderByDesc('fecha');
+            }])
+                ->where('usuario_id', $usuario_id)
+                ->latest('id')
+                ->first();
+        }
+
+        // Última reparación real
+        if ($ultimoVehiculo && $ultimoVehiculo->repairs->isNotEmpty()) {
+            $ultimoServicio = $ultimoVehiculo->repairs->first();
+        }
+
+        return view('history', compact('ultimoVehiculo', 'ultimoServicio'));
     }
 }
