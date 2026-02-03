@@ -24,7 +24,7 @@
                     <button
                         class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md transition">Garaje</button>
                 </a>
-                <a href="#">
+                <a href="{{ route('history') }}">
                     <button
                         class="cursor-pointer bg-blue-400 p-2 hover:bg-blue-600 hover:text-white border rounded-md transition">Historial</button>
                 </a>

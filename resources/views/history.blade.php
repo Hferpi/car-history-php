@@ -19,9 +19,9 @@
             @if ($ultimoVehiculo->repairs->count())
                 <div class="space-y-4">
                     @foreach ($ultimoVehiculo->repairs as $repair)
-                        <div class="bg-sky-200 dark:bg-gray-700 p-4 rounded-xl shadow flex justify-between items-center">
+                        <div class="bg-sky-200 dark:bg-gray-700 p-4 gap-3 rounded-xl shadow flex justify-between items-center">
                             <div>
-                                <h3 class="font-semibold">
+                                <h3 class="font-semibold text-center">
                                     {{ $repair->tipo_servicio ?? 'Reparación' }}
                                 </h3>
                                 <p class="text-sm text-gray-600 dark:text-gray-300">
@@ -30,11 +30,11 @@
                                         • {{ $repair->taller_nombre }}
                                     @endif
                                 </p>
+                                <div class="font-bold text-lg text-red-600 text-center">
+                                    {{ number_format($repair->precio ?? 0, 2) }} €
+                                </div>
                             </div>
 
-                            <div class="font-bold text-lg text-red-600">
-                                {{ number_format($repair->precio ?? 0, 2) }} €
-                            </div>
                             @if ($repair->foto_path)
                                 <img src="{{ asset('storage/' . $repair->foto_path) }}"
                                     class="w-48 rounded shadow cursor-pointer hover:scale-105 transition"
