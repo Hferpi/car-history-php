@@ -2,7 +2,7 @@ import './bootstrap';
 
 // iconos lucide
 
-import { createIcons, Car, Plus, History, Wrench, BadgeCheck } from 'lucide';
+import { createIcons, Car, Plus, History, Wrench, BadgeCheck, Trash } from 'lucide';
 
 document.addEventListener('DOMContentLoaded', () => {
     createIcons({
@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
             History,
             Wrench,
             BadgeCheck,
+            Trash
         }
     });
 });

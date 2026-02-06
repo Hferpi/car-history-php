@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Marca;
 use App\Models\Vehicle;
+use Illuminate\Support\Facades\Storage;
 
-use function Laravel\Prompts\alert;
 
 class VehicleController extends Controller
 {
@@ -99,10 +99,28 @@ class VehicleController extends Controller
 
         return view('home', compact('ultimoVehiculo', 'repair'));
     }
+
+    public function delete(Vehicle $vehicle)
+{
+    // 1. Borrar la imagen física del servidor si existe y no es la por defecto
+    if ($vehicle->avatar && !str_contains($vehicle->avatar, 'default')) {
+        $path = str_replace('storage/', '', $vehicle->avatar);
+        Storage::disk('public')->delete($path);
+    }
+
+    // 2. Limpiar la sesión si el coche borrado era el seleccionado
+    if (session('selected_vehicle_id') == $vehicle->id) {
+        session()->forget('selected_vehicle_id');
+    }
+
+    $vehicle->delete();
+
+    // 4. Redirigir con mensaje
+    return redirect()->route('vehicles.index')->with('success', 'El vehículo ha sido eliminado del garaje.');
+}
 }
 
 use App\Models\VehicleRepair;
-use Illuminate\Support\Facades\Storage;
 
 class VehicleRepairController extends Controller
 {

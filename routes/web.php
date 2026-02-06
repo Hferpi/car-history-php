@@ -37,10 +37,13 @@ Route::middleware('authcheck')->group(function () {
         //guardar coche en la bd
         Route::post('/', [VehicleController::class, 'store'])->name('vehicles.store');
 
+        //eliminar de la bd
+        Route::delete('/{vehicle}', [VehicleController::class, 'delete'])->name('vehicles.delete');
+
         //vver detalle de vehiculo
         Route::get('/{vehicle}', [VehicleController::class, 'show'])->name('vehicles.show');
 
         //seleccionar coche para ver en home
-        Route::post('/vehicles/select', [VehicleController::class, 'select'])->name('vehicles.select');
+        Route::post('/select', [VehicleController::class, 'select'])->name('vehicles.select');
     });
 });
