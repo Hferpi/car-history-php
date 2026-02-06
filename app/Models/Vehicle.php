@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Recibo;
 use Illuminate\Database\Eloquent\Model;
 
 class Vehicle extends Model
@@ -26,5 +27,10 @@ class Vehicle extends Model
     public function modelo()
     {
         return $this->belongsTo(Modelo::class, 'modelo_id');
+    }
+
+    public function repairs()
+    {
+        return $this->hasMany(Recibo::class, 'vehiculo_id');
     }
 }

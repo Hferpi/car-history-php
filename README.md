@@ -37,40 +37,60 @@ El proyecto utiliza las siguientes entidades principales:
 
 1. **Clonar el repositorio**
    ```bash
-   git clone [https://github.com/Hferpi/car-history-php.git](hhttps://github.com/Hferpi/car-history-php.git)
+    git clone https://github.com/Hferpi/car-history-php.git
    cd car_history_php
     ```
 
 2. **Instalar Dependencias**
+
     ```bash
+    # Instalamos dependencias principales
     composer install
     npm install
 
-    #Crear .env en raiz del proyecto
-    touch .env
-
-    # Instalamos sqlite
-    apt install sqlite3
-    touch database/database.sqlite
+    
     ```
+
+
+    ```bash
+    # Crear el .env preparado para sqlite
+
+    cp .env.example .env
+
+    ```
+
+    ```bash
+    # Generar claves app
+    php artisan key:generate
+
+
+    ```
+
+
 
 3. **Importar tablas de init_sqlite.sql**
+
     ```bash
-    sqlite3 database/database.sqlite < database/init_sqlite.sql
+    # Instalamos sqlite
+
+    apt install sqlite3
+ 
+    ```
+   
+     ```bash
+
+    # Instalamos tablas insertar marcas y modelos de vehiculos. 
+    npm run setup
+ 
     ```
 
-4. **Cargar Seeders**
     ```bash
-    php artisan db:seed --class=MarcaModeloSeeder
+    # Instruccion para guargar los recibos.
+
+    php artisan storage:link
     ```
 
-5. **Arrancar servicios**
-    ```bash
-    php artisan serve
-    npm run dev
-    ```
 
----
 
 ## 🌟 Funcionalidades Principales
 
@@ -84,6 +104,14 @@ El proyecto utiliza las siguientes entidades principales:
 * **Histórico de Mantenimiento:** Consulta rápida de todas las reparaciones y servicios realizados a un vehículo específico, facilitando el control de gastos y el mantenimiento preventivo.
 
 ---
+## Usaremos el OCR de Tesseract
+
+```bash 
+
+sudo apt update
+sudo apt install tesseract-ocr tesseract-ocr-spa
+
+```
 
 ## 🏗️ Arquitectura de la Aplicación
 

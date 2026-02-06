@@ -47,7 +47,7 @@
                 <input type="email" name="email" placeholder="algo@gmail.com" required
                     class="rounded-lg p-2 border-b-gray-700 border outline-none">
 
-                <input type="password" name="password" placeholder="Contraseña" required
+                <input type="password" name="password" placeholder="Contraseña" required minlength="6"
                     class="rounded-lg p-2 border-b-gray-700 border outline-none">
                 <div class="mt-4 flex gap-2 justify-center w-full">
                     <button type="submit"

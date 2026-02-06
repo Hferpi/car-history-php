@@ -2,12 +2,12 @@
 
 <?php
 $car = [
-    'id'         => 1,
+    'id' => 1,
     'usuario_id' => 'hector',
-    'matricula'  => '3111GMB',
-    'marca'      => 'ford',
-    'modelo'     => 'focus',
-    'kilometros' => 167896
+    'matricula' => '3111GMB',
+    'marca' => 'ford',
+    'modelo' => 'focus',
+    'kilometros' => 167896,
 ];
 ?>
 
@@ -22,7 +22,7 @@ $car = [
                     <th>Modelo</th>
                     <th>Kilometros</th>
                 </tr>
-                </table>
+            </table>
         </div>
         <div>
             <a href="{{ route('vehicles.create') }}">

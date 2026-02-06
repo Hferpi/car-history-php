@@ -42,20 +42,21 @@ CREATE TABLE vehiculo (
     kilometros INTEGER,
     avatar TEXT,
     anio INTEGER,
+    gasto_total REAL DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuario(id) ON DELETE CASCADE,
     FOREIGN KEY (modelo_id) REFERENCES modelo(id)
 );
 
--- =====================
--- TALLERES
--- =====================
-CREATE TABLE taller (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nombre TEXT NOT NULL,
-    ubicacion TEXT,
-    tipo TEXT
-);
+-- -- =====================
+-- -- TALLERES
+-- -- =====================
+-- CREATE TABLE taller (
+--     id INTEGER PRIMARY KEY AUTOINCREMENT,
+--     nombre TEXT NOT NULL,
+--     ubicacion TEXT,
+--     tipo TEXT
+-- );
 
 -- =====================
 -- RECIBOS
@@ -63,11 +64,12 @@ CREATE TABLE taller (
 CREATE TABLE recibo (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     vehiculo_id INTEGER NOT NULL,
-    taller_id INTEGER NOT NULL,
     fecha DATETIME NOT NULL,
+    taller_nombre TEXT,
     precio REAL,
     tipo_servicio TEXT,
     observaciones TEXT,
-    FOREIGN KEY (vehiculo_id) REFERENCES vehiculo(id) ON DELETE CASCADE,
-    FOREIGN KEY (taller_id) REFERENCES taller(id)
+    foto_patch TEXT,
+    foto_disk TEXT,
+    FOREIGN KEY (vehiculo_id) REFERENCES vehiculo(id) ON DELETE CASCADE
 );

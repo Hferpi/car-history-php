@@ -10,62 +10,93 @@ use Illuminate\Support\Facades\Storage;
 
 class VehicleController extends Controller
 {
-    //Ver el Garaje
+    // =====================
+    // GARAJE
+    // =====================
     public function index()
     {
         $usuario_id = session('usuario_id');
-        $vehiculos = Vehicle::with('modelo')->where('usuario_id', $usuario_id)->get();
+
+        $vehiculos = Vehicle::with('modelo')
+            ->where('usuario_id', $usuario_id)
+            ->get();
 
         return view('vehicles.garage', compact('vehiculos'));
     }
 
-    // Mostrar formulario de creación
+    // =====================
+    // FORM CREAR VEHÍCULO
+    // =====================
     public function create()
     {
         $marcas = Marca::with('modelos')->get();
         return view('vehicles.create', compact('marcas'));
     }
 
-    //Guardar vehiculo
+    // =====================
+    // GUARDAR VEHÍCULO
+    // =====================
     public function store(Request $request)
-{
-    $request->merge([
-        'matricula' => strtoupper(str_replace(' ', '', $request->matricula))
-    ]);
+    {
+        $request->merge([
+            'matricula' => strtoupper(str_replace(' ', '', $request->matricula))
+        ]);
 
-    $request->validate([
-        'marca_id'   => 'required|exists:marca,id',
-        'modelo_id'  => 'required|exists:modelo,id',
-        'kilometros' => 'nullable|integer',
-        'avatar'     => 'required',
-        'matricula'  => [
-            'required',
-            'unique:vehiculo,matricula',
-            'regex:/^[0-9]{4}[BCDFGHJKLMNPRSTVWXYZ]{3}$/' //Regex pa matricula
-        ],
-    ], [
-        'matricula.regex' => 'La matrícula debe tener el formato 1234BBB (4 números y 3 letras consonantes).',
-        'matricula.unique' => 'Esta matrícula ya está registrada en el sistema.'
-    ]);
+        $request->validate([
+            'marca_id'   => 'required|exists:marca,id',
+            'modelo_id'  => 'required|exists:modelo,id',
+            'kilometros' => 'nullable|integer',
+            'avatar'     => 'required',
+            'matricula'  => [
+                'required',
+                'unique:vehiculo,matricula',
+                'regex:/^[0-9]{4}[BCDFGHJKLMNPRSTVWXYZ]{3}$/'
+            ],
+        ], [
+            'matricula.regex' => 'La matrícula debe tener el formato 1234BBB.',
+            'matricula.unique' => 'Esta matrícula ya está registrada.'
+        ]);
 
-    $marcaDB = Marca::find($request->marca_id);
-    Vehicle::create([
-        'usuario_id' => session('usuario_id'),
-        'marca'      => $marcaDB->nombre,
-        'modelo_id'  => $request->modelo_id,
-        'matricula'  => $request->matricula,
-        'kilometros' => $request->kilometros,
-        'avatar'     => $request->avatar,
-    ]);
+        $marcaDB = Marca::findOrFail($request->marca_id);
 
-    return redirect()->route('vehicles.index')->with('success', 'Vehículo creado correctamente');
-}
-    //Seleccionar coche que se vera en /home
-    public function select(Request $request) {
-        session(['selected_vehicle_id' => $request->id]);
-        return response()->json(['status' => 'success']);
+        Vehicle::create([
+            'usuario_id' => session('usuario_id'),
+            'marca'      => $marcaDB->nombre,
+            'modelo_id'  => $request->modelo_id,
+            'matricula'  => $request->matricula,
+            'kilometros' => $request->kilometros,
+            'avatar'     => $request->avatar,
+        ]);
+
+        return redirect()
+            ->route('garaje')
+            ->with('success', 'Vehículo creado correctamente');
     }
 
+
+    // =====================
+    //Seleccionar coche que se vera en /home
+    // =====================
+    public function select(Request $request)
+    {
+        $usuarioId = session('usuario_id');
+
+        $vehicle = Vehicle::where('usuario_id', $usuarioId)
+            ->where('id', $request->id)
+            ->firstOrFail();
+
+        session(['selected_vehicle_id' => $vehicle->id]);
+
+        return response()->json([
+            'status' => 'success',
+            'selected_vehicle_id' => $vehicle->id
+        ]);
+    }
+
+
+    // =====================
+    // HOME / DASHBOARD
+    // =====================
     public function home()
     {
         $usuario_id = session('usuario_id');
@@ -89,15 +120,11 @@ class VehicleController extends Controller
                 ->first();
         }
 
-        //logica repair provisinonal
-        $repair = [
-            'fecha' => '01/03/2025',
-            'precio' => '500',
-            'tipo_servicio' => 'Cambio aceite y filtro',
-            'km' => '160.590',
-        ];
+        $ultimoServicio = $ultimoVehiculo
+            ? $ultimoVehiculo->repairs->first()
+            : null;
 
-        return view('home', compact('ultimoVehiculo', 'repair'));
+        return view('home', compact('ultimoVehiculo', 'ultimoServicio'));
     }
 
     public function delete(Vehicle $vehicle)
@@ -118,33 +145,43 @@ class VehicleController extends Controller
     // 4. Redirigir con mensaje
     return redirect()->route('vehicles.index')->with('success', 'El vehículo ha sido eliminado del garaje.');
 }
-}
-
-use App\Models\VehicleRepair;
-
-class VehicleRepairController extends Controller
-{
-    public function store(Request $request)
+// =====================
+    // HISTORY
+    // =====================
+    public function history()
     {
-        $data = $request->validate([
-            'vehiculo_id' => 'required|exists:vehiculo,id',
-            'taller_id' => 'required|exists:taller,id',
-            'fecha' => 'required|date',
-            'precio' => 'nullable|numeric',
-            'tipo_servicio' => 'nullable|string|max:255',
-            'observaciones' => 'nullable|string',
-            'foto' => 'nullable|image|max:2048',
-        ]);
+        $usuario_id = session('usuario_id');
 
-        // 📸 Guardar imagen
-        if ($request->hasFile('foto')) {
-            $data['foto'] = $request->file('foto')
-                ->store('repairs', 'public');
+        // Vehículo seleccionado en sesión
+        $idSeleccionado = session('selected_vehicle_id');
+
+        $ultimoVehiculo = null;
+        $ultimoServicio = null;
+
+        if ($idSeleccionado) {
+            $ultimoVehiculo = Vehicle::with(['modelo', 'repairs' => function ($q) {
+                $q->orderByDesc('fecha');
+            }])
+                ->where('usuario_id', $usuario_id)
+                ->where('id', $idSeleccionado)
+                ->first();
         }
 
-        VehicleRepair::create($data);
+        // Si no hay seleccionado, coger el último creado
+        if (!$ultimoVehiculo) {
+            $ultimoVehiculo = Vehicle::with(['modelo', 'repairs' => function ($q) {
+                $q->orderByDesc('fecha');
+            }])
+                ->where('usuario_id', $usuario_id)
+                ->latest('id')
+                ->first();
+        }
 
-        return back()->with('success', 'Reparación guardada');
+        // Última reparación real
+        if ($ultimoVehiculo && $ultimoVehiculo->repairs->isNotEmpty()) {
+            $ultimoServicio = $ultimoVehiculo->repairs->first();
+        }
+
+        return view('history', compact('ultimoVehiculo', 'ultimoServicio'));
     }
 }
-

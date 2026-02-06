@@ -53,7 +53,7 @@
 
                     <span class="absolute left-0 top-0 h-full w-5 bg-blue-700 rounded-l-md"></span>
 
-                    <input type="text" name="matricula" required
+                    <input type="text" name="matricula" required maxlength="7"
                         class="pl-3 ml-1.5  outline-none w-32 font-semibold text-lg text-black">
 
 

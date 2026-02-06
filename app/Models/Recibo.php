@@ -4,29 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class VehicleRepair extends Model
+class Recibo extends Model
 {
-    protected $table = 'recibo'; 
+    protected $table = 'recibo';
     public $timestamps = false;
 
     protected $fillable = [
         'vehiculo_id',
-        'taller_id',
         'fecha',
+        'taller_nombre',
         'precio',
         'tipo_servicio',
         'observaciones',
-        'foto'
+        'foto_path',
+        'foto_disk',
     ];
 
     public function vehiculo()
     {
         return $this->belongsTo(Vehicle::class, 'vehiculo_id');
     }
-
-    public function taller()
-    {
-        return $this->belongsTo(Taller::class, 'taller_id');
-    }
 }
-
