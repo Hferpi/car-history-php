@@ -20,11 +20,11 @@
                 <div class="space-y-4">
                     @foreach ($ultimoVehiculo->repairs as $repair)
                         <div class="bg-sky-200 dark:bg-gray-700 p-4 gap-3 rounded-xl shadow flex justify-between items-center">
-                            <div>
+                            <div class="w-full flex flex-col item-center">
                                 <h3 class="font-semibold text-center">
                                     {{ $repair->tipo_servicio ?? 'Reparación' }}
                                 </h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-300">
+                                <p class="text-sm text-gray-600 text-center text-balance dark:text-gray-300">
                                     {{ \Carbon\Carbon::parse($repair->fecha)->format('d/m/Y') }}
                                     @if ($repair->taller_nombre)
                                         • {{ $repair->taller_nombre }}

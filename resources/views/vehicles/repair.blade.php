@@ -29,22 +29,36 @@
         {{-- FORMULARIO OCR --}}
         <div class="mb-6 w-full flex flex-col items-center">
             <h2 class="text-xl font-semibold mb-2">Extraer datos con OCR</h2>
-            <form action="{{ route('repairs.ocr', $vehicle->id) }}" method="POST" enctype="multipart/form-data" class="flex flex-col items-center gap-2 w-64">
+
+            {{-- ✅ Ruta corregida: vehicles.repairs.ocr --}}
+            <form action="{{ route('vehicles.repairs.ocr', $vehicle->id) }}"
+                  method="POST"
+                  enctype="multipart/form-data"
+                  class="flex flex-col items-center gap-2 w-64">
                 @csrf
-                <input type="file" name="foto" accept="image/*" required class="p-2 rounded border cursor-pointer">
-                <button type="submit" class="mt-2 p-2 bg-green-600 text-white rounded hover:bg-green-700">Extraer datos</button>
+                <input type="file" name="foto" accept="image/*" required
+                       class="p-2 rounded border cursor-pointer">
+                <button type="submit"
+                        class="mt-2 p-2 bg-green-600 text-white rounded hover:bg-green-700">
+                    Extraer datos
+                </button>
             </form>
         </div>
 
         {{-- FORMULARIO REPARACIÓN --}}
         <div class="w-full flex flex-col items-center">
             <h2 class="text-xl font-semibold mb-2">Rellenar o revisar datos</h2>
-            <form action="{{ route('repairs.store', $vehicle->id) }}" method="POST" enctype="multipart/form-data" class="flex flex-col items-center gap-4 w-full">
+
+            {{-- ✅ Ruta corregida: repairs.store (o vehicles.repairs.store si la renombras) --}}
+            <form action="{{ route('repairs.store', $vehicle->id) }}"
+                  method="POST"
+                  enctype="multipart/form-data"
+                  class="flex flex-col items-center gap-4 w-full">
                 @csrf
 
                 {{-- Si venimos del OCR, pasar la foto --}}
-                @if(!empty($ocrData['foto_guardada'] ?? null))
-                    <input type="hidden" name="foto_guardada" value="{{ $ocrData['foto_guardada'] }}">
+                @if(!empty($ocrData['image_path'] ?? null))
+                    <input type="hidden" name="foto_guardada" value="{{ $ocrData['image_path'] }}">
                 @endif
 
                 {{-- TALLER --}}
@@ -94,19 +108,34 @@
                 </div>
 
                 {{-- FOTO --}}
-                    <div class="flex flex-col w-64 gap-1">
-                        <label class="font-semibold">Foto del recibo</label>
-                        @if (isset($ocrData['image_path']))
-                            <img src="{{ asset('storage/' . $ocrData['image_path']) }}" class="mb-2 w-48">
-                            <input type="hidden" name="foto_guardada" value="{{ $ocrData['image_path'] }}" required>
-                        @endif
-                        <input type="file" name="foto" accept="image/*" class="p-2 rounded border cursor-pointer">
-                    </div>
+                <div class="flex flex-col w-64 gap-1">
+                    <label class="font-semibold">Foto del recibo</label>
+
+                    {{-- Mostrar preview si viene del OCR --}}
+                    @if (isset($ocrData['image_path']))
+                        <div class="mb-2">
+                            <img src="{{ asset('storage/' . $ocrData['image_path']) }}"
+                                 class="w-48 rounded border">
+                            <p class="text-xs text-gray-500 mt-1">Imagen extraída por OCR</p>
+                        </div>
+                    @endif
+
+                    {{-- Input para subir nueva foto manualmente --}}
+                    <input type="file" name="foto" accept="image/*"
+                           class="p-2 rounded border cursor-pointer">
+                    <p class="text-xs text-gray-500">Sube otra foto solo si quieres cambiarla</p>
+                </div>
 
                 {{-- BOTONES --}}
                 <div class="w-64 flex items-center gap-2">
-                    <button type="submit" class="mt-4 p-3 w-36 bg-blue-500 text-white rounded hover:bg-blue-600 transition cursor-pointer">Guardar reparación</button>
-                    <button type="reset" class="mt-4 p-3 w-36 bg-gray-400 text-white rounded hover:bg-gray-600 transition cursor-pointer">Borrar datos</button>
+                    <button type="submit"
+                            class="mt-4 p-3 w-36 bg-blue-500 text-white rounded hover:bg-blue-600 transition cursor-pointer">
+                        Guardar reparación
+                    </button>
+                    <button type="reset"
+                            class="mt-4 p-3 w-36 bg-gray-400 text-white rounded hover:bg-gray-600 transition cursor-pointer">
+                        Borrar datos
+                    </button>
                 </div>
             </form>
         </div>

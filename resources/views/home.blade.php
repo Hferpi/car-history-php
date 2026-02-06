@@ -52,7 +52,7 @@
             </a>
 
             @if ($ultimoVehiculo)
-                <a href="{{ $ultimoVehiculo ? route('vehicles.repair', $ultimoVehiculo->id) : route('vehicles.create') }}"
+                <a href="{{ $ultimoVehiculo ? route('repairs.store', $ultimoVehiculo->id) : route('vehicles.create') }}"
                     class="flex items-center gap-2 bg-blue-400 p-4 lg:p-6 rounded-xl hover:bg-blue-600 hover:text-white transition shadow">
                     <i data-lucide="wrench" class="w-5 h-5"></i>
                     Reparacion
