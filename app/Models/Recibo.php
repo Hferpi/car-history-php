@@ -12,16 +12,22 @@ class Recibo extends Model
     protected $fillable = [
         'vehiculo_id',
         'fecha',
-        'taller_nombre',
         'precio',
         'tipo_servicio',
         'observaciones',
-        'foto_path',
-        'foto_disk',
+        'taller_nombre',
+        'foto_patch',
+        'foto_disk'
     ];
 
     public function vehiculo()
     {
         return $this->belongsTo(Vehicle::class, 'vehiculo_id');
     }
+
+    public function taller()
+    {
+        return $this->belongsTo(Taller::class, 'taller_id');
+    }
 }
+

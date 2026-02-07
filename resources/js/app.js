@@ -2,7 +2,7 @@ import './bootstrap';
 
 // iconos lucide
 
-import { createIcons, Car, Plus, History, Wrench, BadgeCheck } from 'lucide';
+import { createIcons, Car, Plus, History, Wrench, BadgeCheck, Trash } from 'lucide';
 
 document.addEventListener('DOMContentLoaded', () => {
     createIcons({
@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
             History,
             Wrench,
             BadgeCheck,
+            Trash
         }
     });
 });
@@ -103,3 +104,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+window.openImageModal = function (src) {
+    const modal = document.getElementById('imageModal');
+    const img = document.getElementById('modalImage');
+
+    if (!modal || !img) return;
+
+    img.src = src;
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+};
+
+window.closeImageModal = function () {
+    const modal = document.getElementById('imageModal');
+
+    if (!modal) return;
+
+    modal.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+};

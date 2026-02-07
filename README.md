@@ -106,6 +106,14 @@ El proyecto utiliza las siguientes entidades principales:
 * **Histórico de Mantenimiento:** Consulta rápida de todas las reparaciones y servicios realizados a un vehículo específico, facilitando el control de gastos y el mantenimiento preventivo.
 
 ---
+## Usaremos el OCR de Tesseract
+
+```bash 
+
+sudo apt update
+sudo apt install tesseract-ocr tesseract-ocr-spa
+
+```
 
 ## 🏗️ Arquitectura de la Aplicación
 
