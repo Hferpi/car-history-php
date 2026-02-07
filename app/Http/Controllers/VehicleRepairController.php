@@ -34,7 +34,7 @@ class VehicleRepairController extends Controller
             'observaciones' => 'nullable|string',
             'taller_nombre' => 'nullable|string|max:255',
             'foto'          => 'nullable|image|max:5120',
-            'foto_guardada' => 'nullable|string', // para foto ya subida por OCR
+            'foto_patch' => 'nullable|string', // para foto ya subida por OCR
         ]);
 
         // Manejar la imagen: usar la del OCR o la subida manual
@@ -50,9 +50,9 @@ class VehicleRepairController extends Controller
         // Eliminar claves innecesarias que no existen en el modelo
         unset($data['foto_guardada'], $data['foto']);
 
-        // Crear reparación asociada al vehículo
         $repair = $vehicle->repairs()->create($data);
 
-        return back()->with('success', 'Reparación guardada correctamente');
+            return redirect()->route('history')
+            ->with('success', 'Reparación guardada correctamente');
     }
 }

@@ -143,7 +143,7 @@ class VehicleController extends Controller
     $vehicle->delete();
 
     // 4. Redirigir con mensaje
-    return redirect()->route('vehicles.index')->with('success', 'El vehículo ha sido eliminado del garaje.');
+    return redirect()->route('garaje')->with('success', 'El vehículo ha sido eliminado del garaje.');
 }
 // =====================
     // HISTORY

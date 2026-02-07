@@ -35,10 +35,11 @@
                                 </div>
                             </div>
 
-                            @if ($repair->foto_path)
-                                <img src="{{ asset('storage/' . $repair->foto_path) }}"
+                            {{-- CAMBIO AQUÍ: foto_path -> foto_patch --}}
+                            @if ($repair->foto_patch)
+                                <img src="{{ asset('storage/' . $repair->foto_patch) }}"
                                     class="w-48 rounded shadow cursor-pointer hover:scale-105 transition"
-                                    onclick="openImageModal('{{ asset('storage/' . $repair->foto_path) }}')" alt="Recibo">
+                                    onclick="openImageModal('{{ asset('storage/' . $repair->foto_patch) }}')" alt="Recibo">
                             @endif
 
                         </div>
@@ -59,6 +60,7 @@
             <p class="text-gray-500">No hay vehículos disponibles.</p>
         @endif
     </div>
+
     {{-- MODAL IMAGEN --}}
     <div id="imageModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center"
         onclick="closeImageModal()">
@@ -66,9 +68,21 @@
             <button class="absolute -top-10 right-0 text-white text-3xl font-bold" onclick="closeImageModal()">
                 ✕
             </button>
-
             <img id="modalImage" src="" class="max-h-[90vh] max-w-full rounded shadow-lg">
         </div>
     </div>
 
+    <script>
+        function openImageModal(src) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = src;
+            modal.classList.remove('hidden');
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.add('hidden');
+        }
+    </script>
 @endsection
