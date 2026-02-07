@@ -45,9 +45,11 @@ El proyecto utiliza las siguientes entidades principales:
 
     ```bash
     # Instalamos dependencias principales
+    apt install composer
+    apt install sqlite3 libsqlite3-dev -y
     composer install
     npm install
-
+    
     
     ```
 
