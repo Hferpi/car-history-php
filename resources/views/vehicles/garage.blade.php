@@ -40,7 +40,7 @@
                     <button type="button" onclick="confirmarBorrado(event, {{ $vehiculo->id }})"
                         class="absolute top-4 right-4 z-50 p-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full text-red-500 hover:bg-red-600 hover:text-white shadow-sm border border-gray-200 dark:border-gray-700 transition-all">
                         <!-- Importante: data-lucide="trash-2" y darle tamaño w-5 h-5 -->
-                        <i data-lucide="trash-2" class="w-5 h-5"></i>
+                        <i data-lucide="trash-2" class="w-5 h-5 cursor-pointer"></i>
                     </button>
 
                     <!-- Área del Coche (Avatar) -->

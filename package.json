@@ -6,7 +6,7 @@
         "dev": "vite",
         "build": "vite build",
 
-        "setup": "npm run db:init && npm run db:seed",
+        "setup": "npm install && npm run db:init && npm run db:seed",
         "db:init": "mkdir -p database && [ -f database/database.sqlite ] || (touch database/database.sqlite && sqlite3 database/database.sqlite < database/init_sqlite.sql)",
         "db:seed": "php artisan db:seed --class=MarcaModeloSeeder"
     },

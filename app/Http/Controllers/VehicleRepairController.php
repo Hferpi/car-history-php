@@ -21,38 +21,42 @@ class VehicleRepairController extends Controller
     /**
      * Guardar reparación
      */
-    public function store(Request $request, Vehicle $vehicle)
-    {
-        $usuarioId = session('usuario_id');
-        abort_if($vehicle->usuario_id !== $usuarioId, 403);
+   public function store(Request $request, Vehicle $vehicle)
+{
+    $usuarioId = session('usuario_id');
+    abort_if($vehicle->usuario_id !== $usuarioId, 403);
 
-        // Validar datos
-        $data = $request->validate([
-            'fecha'         => 'required|date',
-            'precio'        => 'nullable|numeric',
-            'tipo_servicio' => 'nullable|string|max:255',
-            'observaciones' => 'nullable|string',
-            'taller_nombre' => 'nullable|string|max:255',
-            'foto'          => 'nullable|image|max:5120',
-            'foto_patch' => 'nullable|string', // para foto ya subida por OCR
-        ]);
+    $data = $request->validate([
+        'fecha'         => 'required|date',
+        'precio'        => 'nullable|numeric',
+        'tipo_servicio' => 'nullable|string|max:255',
+        'observaciones' => 'nullable|string',
+        'taller_nombre' => 'nullable|string|max:255',
+        'foto'          => 'nullable|image|max:5120',
+        'foto_patch'    => 'nullable|string', // El path que viene del OCR
+    ]);
 
-        // Manejar la imagen: usar la del OCR o la subida manual
-        if (!empty($data['foto_guardada'])) {
-            $data['foto_path'] = $data['foto_guardada'];
-            $data['foto_disk'] = 'public';
-        } elseif ($request->hasFile('foto')) {
-            $path = $request->file('foto')->store('receipts', 'public');
-            $data['foto_patch'] = $path;
-            $data['foto_disk'] = 'public';
-        }
+    // LÓGICA PARA LA FOTO
+    $finalPath = null;
 
-        // Eliminar claves innecesarias que no existen en el modelo
-        unset($data['foto_guardada'], $data['foto']);
-
-        $repair = $vehicle->repairs()->create($data);
-
-            return redirect()->route('history')
-            ->with('success', 'Reparación guardada correctamente');
+    if ($request->hasFile('foto')) {
+        // 1. Si el usuario subió una foto nueva manualmente
+        $finalPath = $request->file('foto')->store('receipts', 'public');
+    } elseif ($request->filled('foto_patch')) {
+        // 2. Si no hay subida manual, pero venía una del OCR
+        $finalPath = $request->input('foto_patch');
     }
+
+    // Creamos el registro con el nombre de columna correcto de tu DB
+    $vehicle->repairs()->create([
+        'fecha'         => $data['fecha'],
+        'precio'        => $data['precio'],
+        'tipo_servicio' => $data['tipo_servicio'],
+        'observaciones' => $data['observaciones'],
+        'taller_nombre' => $data['taller_nombre'],
+        'foto_patch'     => $finalPath, // Asegúrate que en tu DB se llama 'foto_path'
+    ]);
+
+    return redirect()->route('history')->with('success', 'Reparación guardada correctamente');
+}
 }
