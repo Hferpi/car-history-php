@@ -16,7 +16,6 @@
             @if ($ultimoVehiculo->repairs->count())
                 <div class="space-y-4">
                     @foreach ($ultimoVehiculo->repairs as $repair)
-                    <span class="text-xs text-red-500">{{ $repair->foto_patch }}</span>
                         <div class="bg-sky-200 dark:bg-gray-700 p-4 gap-3 rounded-xl shadow flex justify-between items-center">
                             <div class="w-full flex flex-col item-center">
                                 <h3 class="font-semibold text-center">

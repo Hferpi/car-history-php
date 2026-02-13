@@ -32,8 +32,8 @@
            <section
             class="relative w-full p-6 rounded-2xl h-[350px] flex justify-center bg-blue-300/70
                text-left flex-col gap-4">
-            <img src="{{ asset('img/logoBg.png') }}"
-                class="hidden md:block md:w-1/2 lg:w-3/5 absolute bottom-4 right-2  opacity-60 pointer-events-none" />
+            <img src="{{ asset('img/logoBg1.png') }}"
+                class="hidden md:block md:w-1/3 lg:w-3/7 absolute bottom-6 right-6  pointer-events-none" />
             <h1 class="text-2xl m-2 font-semibold">Registro</h1>
 
 

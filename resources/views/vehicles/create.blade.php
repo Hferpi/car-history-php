@@ -11,8 +11,8 @@
     ?>
 
     <section
-        class="relative w-full p-6 rounded-2xl flex justify-center bg-sky-200 dark:bg-gray-600
-               text-left flex-col gap-4">
+        class="relative w-full p-6 rounded-2xl flex justify-center items-center md:items-baseline bg-sky-200 dark:bg-gray-600
+              text-center md:text-left flex-col gap-4">
         <img id="img-avatar"
             class="hidden md:block md:w-1/3 lg:w-90 absolute bottom-4 right-30" />
         <h1 class="text-2xl m-2 font-semibold">Crear un coche</h1>
