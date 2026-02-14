@@ -29,8 +29,17 @@ class VehicleController extends Controller
     // =====================
     public function create()
     {
+
+        $avatars = [
+            'car1' => 'img/cars-icons/blue-rm.png',
+            'car2' => 'img/cars-icons/cyan-rm.png',
+            'car3' => 'img/cars-icons/jeep-rm.png',
+            'car4' => 'img/cars-icons/red-rm.png',
+        ];
+
+
         $marcas = Marca::with('modelos')->get();
-        return view('vehicles.create', compact('marcas'));
+        return view('vehicles.create', compact('marcas', 'avatars'));
     }
 
     // =====================
@@ -73,27 +82,6 @@ class VehicleController extends Controller
             ->with('success', 'Vehículo creado correctamente');
     }
 
-
-    // =====================
-    //Seleccionar coche que se vera en /home
-    // =====================
-    public function select(Request $request)
-    {
-        $usuarioId = session('usuario_id');
-
-        $vehicle = Vehicle::where('usuario_id', $usuarioId)
-            ->where('id', $request->id)
-            ->firstOrFail();
-
-        session(['selected_vehicle_id' => $vehicle->id]);
-
-        return response()->json([
-            'status' => 'success',
-            'selected_vehicle_id' => $vehicle->id
-        ]);
-    }
-
-
     // =====================
     // HOME / DASHBOARD
     // =====================
@@ -127,25 +115,30 @@ class VehicleController extends Controller
         return view('home', compact('ultimoVehiculo', 'ultimoServicio'));
     }
 
+
+    // =====================
+    // BORRAR VEHICULO
+    // =====================
+
+    //TODO: agregar eliminicaion de recibos
     public function delete(Vehicle $vehicle)
-{
-    // 1. Borrar la imagen física del servidor si existe y no es la por defecto
-    if ($vehicle->avatar && !str_contains($vehicle->avatar, 'default')) {
-        $path = str_replace('storage/', '', $vehicle->avatar);
-        Storage::disk('public')->delete($path);
+    {
+        if ($vehicle->avatar && !str_contains($vehicle->avatar, 'default')) {
+            $path = str_replace('storage/', '', $vehicle->avatar);
+            Storage::disk('public')->delete($path);
+        }
+
+        // 2. Limpiar la sesión si el coche borrado era el seleccionado
+        if (session('selected_vehicle_id') == $vehicle->id) {
+            session()->forget('selected_vehicle_id');
+        }
+
+        $vehicle->delete();
+
+        return redirect()->route('garaje')->with('success', 'El vehículo ha sido eliminado del garaje.');
     }
 
-    // 2. Limpiar la sesión si el coche borrado era el seleccionado
-    if (session('selected_vehicle_id') == $vehicle->id) {
-        session()->forget('selected_vehicle_id');
-    }
-
-    $vehicle->delete();
-
-    // 4. Redirigir con mensaje
-    return redirect()->route('garaje')->with('success', 'El vehículo ha sido eliminado del garaje.');
-}
-// =====================
+    // =====================
     // HISTORY
     // =====================
     public function history()

@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User; // Tu modelo Usuario
+use App\Models\User;
+use App\Models\Vehicle;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -25,11 +26,11 @@ class AuthController extends Controller
         if ($usuario) {
             // Existe el usuario, verificamos contraseña
             if (Hash::check($request->password, $usuario->password)) {
+
                 // Guardamos la sesión
                 $request->session()->put('usuario_id', $usuario->id);
                 $request->session()->put('usuario_nombre', $usuario->nombre);
-
-                // Login exitoso
+                
                 return redirect()->route('home');
             } else {
                 return back()->withErrors(['password' => 'Contraseña incorrecta']);

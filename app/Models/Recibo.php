@@ -9,6 +9,7 @@ class Recibo extends Model
     protected $table = 'recibo';
     public $timestamps = false;
 
+    //TODO: añadir km¿¿??
     protected $fillable = [
         'vehiculo_id',
         'fecha',

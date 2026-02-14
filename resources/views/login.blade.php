@@ -8,10 +8,9 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body
-    class="h-full flex flex-col items-center justify-center p-6 lg:p-8">
+<body class="h-full flex flex-col items-center justify-center p-6 lg:p-8">
 
-    <header class="w-full max-w-[335px] lg:max-w-4xl mb-8 text-center">
+    <header class="w-full max-w-83 lg:max-w-4xl mb-8 text-center">
         <h1 class="text-4xl font-bold text-cyan-900 mb-2">
             Car History Tracker
         </h1>
@@ -27,7 +26,7 @@
     </header>
 
 
-    <main class="w-full max-w-[300px] md:max-w-[550px]  lg:max-w-3xl">
+    <main class="w-full max-w-75 md:max-w-137.5  lg:max-w-3xl">
         @if (session('error'))
             <script>
                 alert("{{ session('error') }}");
@@ -35,40 +34,46 @@
         @endif
 
 
-        <section
-            class="relative w-full p-6 rounded-2xl h-[350px] flex justify-center bg-blue-300/70
-               text-left flex-col gap-4">
-            <img src="{{ asset('img/logoBg1.png') }}"
-                    class="hidden md:block md:w-1/3 lg:w-3/7 absolute bottom-6 right-6 pointer-events-none" />
-            <h1 class="text-2xl m-2 font-semibold">Login</h1>
+        <section class="w-full rounded-2xl bg-blue-300/70 overflow-hidden flex flex-col md:flex-row min-h-100">
 
+            <div class="w-full md:w-1/2 p-8 flex flex-col justify-center items-center md:items-start text-left gap-4">
+                <h1 class="text-3xl font-semibold text-cyan-900">Login</h1>
 
-            <form method="POST" action="{{ route('login.post') }}" class="w-60 flex flex-col gap-3">
-                @csrf
+                <form method="POST" action="{{ route('login.post') }}" class="w-full max-w-xs flex-1 flex flex-col gap-4">
+                    @csrf
+                    <div class="flex flex-1 flex-col gap-4 justify-center">
+                        <div class="flex flex-col gap-1">
+                            <input type="email" name="email" placeholder="algo@gmail.com" required
+                                class="rounded-lg border border-gray-300 p-3 outline-none focus:border-cyan-800 transition shadow-sm">
+                        </div>
 
-                <input type="email" name="email" placeholder="algo@gmail.com" required
-                    class="rounded-lg border-b-gray-700 border p-2 outline-none">
-
-
-
-                <input type="password" name="password" placeholder="Contraseña" required
-                    class="rounded-lg p-2 border-b-gray-700 border outline-none">
-                <div class="mt-4 flex gap-2 justify-center w-full">
-                    <button type="submit"
-                        class="w-1/2 border border-cyan-800 rounded-2xl bg-cyan-800 text-white p-2
-                                   transition cursor-pointer hover:bg-[oklch(0.86_0.07_249.31)] hover:text-cyan-800">
-                        Entrar
-                    </button>
-
-                    <a href="{{ route('register') }}" class="w-1/2">
-                        <button type="button"
-                            class="w-full border border-cyan-800 rounded-2xl bg-[oklch(0.86_0.07_249.31)] text-cyan-800 p-2
-                                       transition cursor-pointer hover:bg-cyan-800 hover:text-white">
-                            Regístrate
+                        <div class="flex flex-col gap-1">
+                            <input type="password" name="password" placeholder="Contraseña" required
+                                class="rounded-lg border border-gray-300 p-3 outline-none focus:border-cyan-800 transition shadow-sm">
+                        </div>
+                    </div>
+                    <div class="mt-4 flex gap-3 justify-center w-full">
+                        <button type="submit"
+                            class="w-1/2 border border-cyan-800 rounded-2xl bg-cyan-800 text-white py-2.5
+                               transition cursor-pointer hover:bg-[oklch(0.86_0.07_249.31)] hover:text-cyan-800 font-medium">
+                            Entrar
                         </button>
-                    </a>
-                </div>
-            </form>
+
+                        <a href="{{ route('register') }}" class="w-1/2">
+                            <button type="button"
+                                class="w-full border border-cyan-800 rounded-2xl bg-[oklch(0.86_0.07_249.31)] text-cyan-800 py-2.5
+                                   transition cursor-pointer hover:bg-cyan-800 hover:text-white font-medium">
+                                Regístrate
+                            </button>
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            <div class="hidden md:flex md:w-1/2 items-center justify-center p-6 bg-white/20">
+                <img src="{{ asset('img/logoBg1.png') }}" alt="Logo Background"
+                    class="max-w-full h-auto object-contain drop-shadow-xl" />
+            </div>
 
         </section>
     </main>

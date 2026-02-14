@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Vehicle;
-use App\Services\GeminiService;
+//use App\Services\OcrService; prueba
+//use App\Services\AiService; prueba
+use App\Services\GeminiService; // NUEVO
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
-class OCRextractInfo extends Controller
+class IAextractInfo extends Controller
 {
-    public function extract(Request $request, Vehicle $vehicle, GeminiService $gemini)
+
+public function extract(Request $request, Vehicle $vehicle, GeminiService $gemini)
     {
         $request->validate([
             'foto' => 'required|image|mimes:jpg,jpeg,png|max:10240'
@@ -21,7 +24,7 @@ class OCRextractInfo extends Controller
             $path = $request->file('foto')->store('receipts', $disk);
             $fullPath = storage_path('app/public/' . $path);
 
-            // NUEVO: Gemini procesa la imagen directamente
+            //Gemini procesa la imagen directamente
             $smartData = $gemini->parseInvoice($fullPath);
 
             if (empty($smartData)) {
@@ -47,12 +50,12 @@ class OCRextractInfo extends Controller
 
             // Retornamos a la misma vista de siempre, que ya sabe pintar $ocrData
             return view('vehicles.repair', compact('vehicle', 'ocrData'));
+
         } catch (\Exception $e) {
             Log::error("Error con Gemini: " . $e->getMessage());
             return back()->withErrors(['ocr' => 'Error técnico: ' . $e->getMessage()]);
         }
     }
-
 
     private function formatDate($date): string
     {
@@ -63,3 +66,4 @@ class OCRextractInfo extends Controller
         }
     }
 }
+

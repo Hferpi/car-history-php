@@ -16,7 +16,8 @@
             @if ($ultimoVehiculo->repairs->count())
                 <div class="space-y-4">
                     @foreach ($ultimoVehiculo->repairs as $repair)
-                        <div class="bg-sky-200 dark:bg-gray-700 p-4 gap-3 rounded-xl shadow flex justify-between items-center">
+                        <div
+                            class="bg-sky-200 dark:bg-gray-700 p-4 gap-3 rounded-xl shadow flex justify-between items-center">
                             <div class="w-full flex flex-col item-center">
                                 <h3 class="font-semibold text-center">
                                     {{ $repair->tipo_servicio ?? 'Reparación' }}
@@ -34,7 +35,8 @@
                             @if ($repair->foto_patch)
                                 <img src="{{ asset('storage/' . $repair->foto_patch) }}"
                                     class="w-48 rounded shadow cursor-pointer hover:scale-105 transition"
-                                    onclick="openImageModal('{{ asset('storage/' . $repair->foto_patch) }}')" alt="Recibo">
+                                    onclick="openImageModal('{{ asset('storage/' . $repair->foto_patch) }}')"
+                                    alt="Recibo">
                             @endif
                         </div>
                     @endforeach
@@ -54,13 +56,16 @@
         @endif
     </div>
     {{-- MODAL IMAGEN --}}
-    <div id="imageModal" class="fixed inset-0 bg-black/80 hidden z-50 flex items-center justify-center"
+    <div id="imageModal" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center cursor-pointer"
         onclick="closeImageModal()">
-        <div class="relative max-w-5xl max-h-[90vh]">
-            <button class="absolute -top-10 right-0 text-white text-3xl font-bold" onclick="closeImageModal()">
-                ✕
+
+        <div class="relative max-w-5xl max-h-[90vh] p-4" onclick="event.stopPropagation()">
+            <button class="absolute -top-12 right-0 text-white text-4xl font-light hover:text-gray-300 transition"
+                onclick="closeImageModal()">
+                &times;
             </button>
-            <img id="modalImage" src="" class="max-h-[90vh] max-w-full rounded shadow-lg">
+            <img id="modalImage" src=""
+                class="max-h-[85vh] max-w-full rounded-lg shadow-2xl border border-white/10">
         </div>
     </div>
 @endsection

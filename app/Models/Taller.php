@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+
+//NO SE USA MODELO PARA FUTURO
 class Taller extends Model
 {
     protected $table = 'taller';

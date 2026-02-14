@@ -1,4 +1,4 @@
-    <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6">
+    <header class="w-full lg:max-w-4xl max-w-83 text-sm mb-6">
         <h1 class="text-4xl font-bold text-cyan-900 dark:text-cyan-400 mb-2">
             Bienvenido, {{ session('usuario_nombre') ?? 'Invitado' }}
         </h1>

@@ -8,12 +8,12 @@
             y el historial completo de tus vehículos.
         </p>
 
-        <section class="w-full items-center">
+        <section class="w-full flex place-content-center">
             @if ($ultimoVehiculo)
                 <div
-                    class="w-full rounded-2xl border border-gray-200 dark:border-gray-700 flex flex-col items-center bg-white dark:bg-gray-800 shadow-sm overflow-hidden">
+                    class="w-full md:w-3/5 rounded-2xl border border-gray-200 dark:border-gray-700 flex flex-col items-center bg-white dark:bg-gray-800 shadow-sm overflow-hidden">
                     <!-- Imagen real del último coche -->
-                    <img src="{{ asset($ultimoVehiculo->avatar) }}" alt="icon-car" class="w-60 md:w-80 lg:w-90 m-6">
+                    <img src="{{ asset($ultimoVehiculo->avatar) }}" alt="icon-car" class="w-60 md:w-60 lg:w-80 m-6">
 
                     <div class="bg-sky-200 dark:bg-gray-600 w-full p-4 items-center flex justify-around">
                         <h3 class="text-2xl dark:text-white">
@@ -97,7 +97,7 @@
             </div>
 
             <div class="text-center w-full bg-sky-200 dark:bg-gray-600 rounded-2xl mt-8 p-6">
-                <h2 class="text-sm uppercase tracking-widest text-gray-600 dark:text-gray-300">Gasto total / año</h2>
+                <h2 class="text-sm uppercase tracking-widest text-gray-600 dark:text-gray-300">Gasto total </h2>
                 <p class="text-3xl text-red-600 font-bold">
                     {{ $ultimoVehiculo->repairs->sum('precio') ?? 0 }} €
                 </p>

@@ -39,7 +39,7 @@
                     <!-- BOTÓN PAPELERA -->
                     <button type="button" onclick="confirmarBorrado(event, {{ $vehiculo->id }})"
                         class="absolute top-4 right-4 z-50 p-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full text-red-500 hover:bg-red-600 hover:text-white shadow-sm border border-gray-200 dark:border-gray-700 transition-all">
-                        <!-- Importante: data-lucide="trash-2" y darle tamaño w-5 h-5 -->
+
                         <i data-lucide="trash-2" class="w-5 h-5 cursor-pointer"></i>
                     </button>
 
@@ -73,7 +73,7 @@
                                 class="flex items-stretch bg-white rounded border border-gray-400 overflow-hidden h-8 shadow-sm">
                                 <div class="bg-blue-700 w-3"></div>
                                 <div class="px-2 flex items-center justify-center bg-white">
-                                    <span class="text-black font-mono font-bold text-base tracking-wider uppercase">
+                                    <span class="text-black font-bold text-base tracking-wider uppercase">
                                         {{ $vehiculo->matricula }}
                                     </span>
                                 </div>
@@ -98,22 +98,7 @@
         </section>
     </div>
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap');
-
-        .font-mono {
-            font-family: 'Roboto Mono', monospace;
-        }
-    </style>
-
-    <!-- 1. CARGAMOS LA LIBRERÍA LUCIDE -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-
-    <script>
-        // 2. INICIALIZAMOS LOS ICONOS AL CARGAR LA PÁGINA
-        document.addEventListener("DOMContentLoaded", function() {
-            lucide.createIcons();
-        });
+    {{-- <script>
 
         function confirmarBorrado(event, id) {
             event.stopPropagation(); // Evita que se seleccione el coche al pulsar borrar
@@ -154,5 +139,5 @@
                 })
             });
         }
-    </script>
+    </script> --}}
 @endsection

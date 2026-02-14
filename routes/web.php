@@ -49,11 +49,11 @@ Route::middleware('authcheck')->group(function () {
 
             // Mostrar formulario de reparación (GET)
             Route::get('/', [VehicleRepairController::class, 'create'])
-                ->name('vehicles.repairs.create');  // ← Cambiado para consistencia
+                ->name('vehicles.repairs.create'); 
 
             // Procesar OCR (POST)
             Route::post('/ocr', [OCRextractInfo::class, 'extract'])
-                ->name('vehicles.repairs.ocr');  // ← Ahora está dentro del grupo
+                ->name('vehicles.repairs.ocr');
 
             // Guardar reparación (POST)
             Route::post('/', [VehicleRepairController::class, 'store'])
